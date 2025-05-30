@@ -1,7 +1,11 @@
 #!/bin/bash
 
+clear
+sleep 1
+
+FLAG_FILE="/tmp/.script_authenticated"
+
 get_url() {
-  # password: zivs123
   part8="this_is_fake_part"
   part9="another/fake/dir"
   part10="backup_ftp://trash.net"
@@ -23,7 +27,6 @@ get_url() {
   a10="/heads"
   a11="/main"
 
-  # password: zivs123
   echo "${a1}${a2}${a3}${a4}${a5}${a6}${a7}${a8}${a9}${a10}${a11}${a12}"
 }
 
@@ -36,26 +39,35 @@ if [[ ! -f "$FLAG_FILE" ]]; then
   echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
   echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
   echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
-  read -sp " 🔐  Enter password to access: " pass
-  echo ""
 
   remote_pass=$(get_password)
+  max_tries=10
+  attempt=1
 
-  if [[ "$pass" != "$remote_pass" ]]; then
-    echo -e "${RED} ❌  Access Denied! Wrong password.${NC}"
+  while (( attempt <= max_tries )); do
+    read -sp " 🔐  Enter password to access (Attempt $attempt/$max_tries): " pass
+    echo ""
+
+    if [[ "$pass" == "$remote_pass" ]]; then
+      touch "$FLAG_FILE"
+      echo -e "${GREEN} ✅  Password verified successfully.${NC}"
+      break
+    else
+      echo -e "${RED} ❌  Wrong password. Try again.${NC}"
+    fi
+
+    ((attempt++))
+  done
+
+  if (( attempt > max_tries )); then
+    echo -e "${RED} ❌  Maximum attempts reached. Exiting...${NC}"
     exit 1
   fi
-
-  touch "$FLAG_FILE"
-  echo -e "${GREEN} ✅  Password verified successfully.${NC}"
 else
- echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
+  echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
 fi
 
-clear
-sleep 1
-
-# قراءة التوكن من 
+# Installation start 
 
 Green="\e[92;1m"
 RED="\033[31m"
