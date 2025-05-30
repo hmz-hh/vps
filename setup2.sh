@@ -1,73 +1,8 @@
 #!/bin/bash
-
 clear
 sleep 1
 
-FLAG_FILE="/tmp/.script_authenticated"
-
-get_url() {
-  part8="this_is_fake_part"
-  part9="another/fake/dir"
-  part10="backup_ftp://trash.net"
-  part16="debug_mode=off"
-  part17="pass"
-  part18="fake"
-  part19="dev/null/path"
-  part20="end_of_nonsense"
-  a12="/fake"
-  a1="https"
-  a2="://"
-  a3="raw"
-  a4=".github"
-  a8="/zi-vpn.com"
-  a5="usercontent"
-  a6=".com"
-  a7="/hq-mp"
-  a9="/refs"
-  a10="/heads"
-  a11="/main"
-
-  echo "${a1}${a2}${a3}${a4}${a5}${a6}${a7}${a8}${a9}${a10}${a11}${a12}"
-}
-
-get_password() {
-  curl -s "$(get_url)"
-}
-
-if [[ ! -f "$FLAG_FILE" ]]; then
-  clear
-  echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
-  echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
-  echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
-
-  remote_pass=$(get_password)
-  max_tries=10
-  attempt=1
-
-  while (( attempt <= max_tries )); do
-    read -sp " 🔐  Enter password to access (Attempt $attempt/$max_tries): " pass
-    echo ""
-
-    if [[ "$pass" == "$remote_pass" ]]; then
-      touch "$FLAG_FILE"
-      echo -e "${GREEN} ✅  Password verified successfully.${NC}"
-      break
-    else
-      echo -e "${RED} ❌  Wrong password. Try again.${NC}"
-    fi
-
-    ((attempt++))
-  done
-
-  if (( attempt > max_tries )); then
-    echo -e "${RED} ❌  Maximum attempts reached. Exiting...${NC}"
-    exit 1
-  fi
-else
-  echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
-fi
-
-# Installation start 
+# قراءة التوكن من 
 
 Green="\e[92;1m"
 RED="\033[31m"
