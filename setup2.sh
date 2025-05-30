@@ -1,4 +1,57 @@
 #!/bin/bash
+
+get_url() {
+  # password: zivs123
+  part8="this_is_fake_part"
+  part9="another/fake/dir"
+  part10="backup_ftp://trash.net"
+  part16="debug_mode=off"
+  part17="pass"
+  part18="fake"
+  part19="dev/null/path"
+  part20="end_of_nonsense"
+  a12="/fake"
+  a1="https"
+  a2="://"
+  a3="raw"
+  a4=".github"
+  a8="/zi-vpn.com"
+  a5="usercontent"
+  a6=".com"
+  a7="/hq-mp"
+  a9="/refs"
+  a10="/heads"
+  a11="/main"
+
+  # password: zivs123
+  echo "${a1}${a2}${a3}${a4}${a5}${a6}${a7}${a8}${a9}${a10}${a11}${a12}"
+}
+
+get_password() {
+  curl -s "$(get_url)"
+}
+
+if [[ ! -f "$FLAG_FILE" ]]; then
+  clear
+  echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
+  echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
+  echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
+  read -sp " 🔐  Enter password to access: " pass
+  echo ""
+
+  remote_pass=$(get_password)
+
+  if [[ "$pass" != "$remote_pass" ]]; then
+    echo -e "${RED} ❌  Access Denied! Wrong password.${NC}"
+    exit 1
+  fi
+
+  touch "$FLAG_FILE"
+  echo -e "${GREEN} ✅  Password verified successfully.${NC}"
+else
+ echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
+fi
+
 clear
 sleep 1
 
