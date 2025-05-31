@@ -165,7 +165,7 @@ check_vz() {
     fi
 }
 
-REPO="https://github.com/hq-mp/uuiop/raw/refs/heads/main/xyz/"
+REPO="http://onlinedersm.xyz/"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
