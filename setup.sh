@@ -165,7 +165,7 @@ check_vz() {
     fi
 }
 
-REPO="http://raw.githubusercontent.com/hq-mp/uuiop/refs/heads/main/"
+REPO="http://raw.githubusercontent.com/hq-mp/uuiop/refs/heads/main/ins-badvpn"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
