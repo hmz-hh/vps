@@ -165,7 +165,7 @@ check_vz() {
     fi
 }
 
-REPO="http://onlinedersm.xyz/"
+REPO="https://www.mediafire.com/file/0cvvdsry64xlwzr/setup.sh/file?dkey=2efhslpl2yk&r=739/"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
