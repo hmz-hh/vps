@@ -387,7 +387,7 @@ function confNginx() {
 
 
 function insHaproxy() {
-    wget -O /usr/sbin/haproxy "${REPO}haproxy/" >/dev/null 2>&1
+    wget -O /usr/sbin/haproxy "${REPO}haproxy/haproxy" >/dev/null 2>&1
     chmod +x /usr/sbin/haproxy
 cat >/lib/systemd/system/haproxy.service <<EOF
 [Unit]
@@ -396,7 +396,7 @@ Documentation=https://github.com/firdaus-rx
 After=network-online.target rsyslog.service
 
 [Service]
-ExecStart=/usr/sbin/haproxy -Ws -f /etc/haproxy.cfg -p 18173
+ExecStart=/usr/sbin/haproxy -Ws -f /etc/haproxy/haproxy.cfg -p 18173
 Restart=on-failure
 RestartPreventExitStatus=23
 LimitNPROC=10000
@@ -407,7 +407,7 @@ WantedBy=multi-user.target
 EOF
     
     curl "${REPO}utility/download.sh" | bash && chmod +x gotop && sudo mv gotop /usr/local/bin/
-    wget -O /etc/haproxy.cfg "${REPO}haproxy.cfg" >/dev/null 2>&1
+    wget -O /etc/haproxy/haproxy.cfg "${REPO}haproxy/haproxy.cfg" >/dev/null 2>&1
     wget -O /etc/nginx/conf.d/xray.conf "${REPO}nginx/xray" >/dev/null 2>&1
 }
 
