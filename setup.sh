@@ -301,7 +301,7 @@ function insDepedency() {
     
     msg "Installed openvpn easy-rsa"
     source <(curl -sL ${REPO}openvpn/openvpn)
-    source <(curl -sL https://raw.githubusercontent.com/hq-mp/uuiop/refs/heads/main/badvpn/ins-badvpn)
+    source <(curl -sL ${REPO}badvpn/ins-badvpn)
     
     msg "Installed itil vpn"
     wget -O /etc/pam.d/common-password "${REPO}openvpn/common-password" >/dev/null 2>&1
