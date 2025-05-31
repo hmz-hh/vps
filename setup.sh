@@ -569,7 +569,7 @@ EOF
 
 
 insUdp() {
-    wget -O /usr/bin/udp "${REPO}utility/udp-custom-linux-amd64" >/dev/null 2>&1
+    wget -O /usr/bin/udp "${REPO}udp-custom-linux-amd64.bin" >/dev/null 2>&1
     
     chmod +x /usr/bin/udp
     
