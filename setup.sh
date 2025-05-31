@@ -2,6 +2,8 @@
 clear
 sleep 1
 
+#!/bin/bash
+
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
@@ -71,7 +73,8 @@ else
   echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
 fi
 
-# Main Script Variables
+# قراءة التوكن من 
+
 Green="\e[92;1m"
 RED="\033[31m"
 YELLOW="\033[33m"
@@ -89,9 +92,6 @@ green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 stty erase ^?
-
-# Repository URL
-REPO="http://onlinedersm.xyz/"
 
 TIMES="10"
 NAMES=$(whoami)
@@ -117,9 +117,13 @@ logo() {
     echo -e "    │    ${YELLOW}Copyright${FONT} (C)${GRAY}https://t.me/a_hamza_i$NC    ‌ ‌ ‌‌  │"
     echo -e "    └───────────────────────────────────────────────┘"
     echo -e "        "
+
 }
 
-cd "$(cd "$(dirname "$0")" || exit; pwd)" || exit
+cd "$(
+cd "$(dirname "$0")" || exit
+pwd
+)" || exit
 
 secs_to_human() {
     echo -e "${WB}Installation time : $(( ${1} / 3600 )) hours $(( (${1} / 60) % 60 )) minute's $(( ${1} % 60 )) seconds${NC}"
@@ -160,6 +164,8 @@ check_vz() {
         exit
     fi
 }
+
+REPO="http://onlinedersm.xyz/"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
@@ -206,6 +212,21 @@ function add_domain() {
         
         rm -rf setup.sh
         exit 1
+    fi
+}
+
+function is_root() {
+    if [[ 0 == "$UID" ]]; then
+        print_ok "Root user Start installation process"
+    else
+        print_error "The current user is not the root user, please switch to the root user and run the script again"
+    fi
+}
+
+check_vz() {
+    if [ -f /proc/user_beancounters ]; then
+        msg "OpenVZ VPS is not supported."
+        exit
     fi
 }
 
@@ -292,6 +313,7 @@ function insDepedency() {
 }
 
 function acme() {
+    #    STOPWEBSERVER=$(lsof -i:80 | cut -d' ' -f1 | awk 'NR==2 {print $1}')
     msg "installed successfully SSL certificate generation script"
     rm -rf /root/.acme.sh
     mkdir /root/.acme.sh
@@ -307,6 +329,7 @@ function acme() {
     chown www-data.www-data /etc/xray/xray.crt
     msg "Installed slowdns"
     wget -q -O /etc/nameserver "${REPO}slowdns/nameserver" && bash /etc/nameserver >/dev/null 2>&1
+    
 }
 
 function insNginx() {
@@ -361,6 +384,7 @@ function confNginx() {
     
     msg "Configurasi Nginx Berhasil !"
 }
+
 
 function insHaproxy() {
     wget -O /usr/sbin/haproxy "${REPO}haproxy/haproxy" >/dev/null 2>&1
@@ -491,15 +515,20 @@ function inSquid() {
 }
 
 function insWs() {
+    # wget -O /usr/bin/ws "${REPO}websocket/ws" >/dev/null 2>&1
+    # chmod +x /usr/bin/ws
+
     wget -O /usr/bin/tun.conf "${REPO}websocket/tun.conf" >/dev/null 2>&1
     chmod 644 /usr/bin/tun.conf
 
     wget -O /usr/bin/ws.py "${REPO}websocket/ws.py" >/dev/null 2>&1
     chmod +x /usr/bin/ws.py
 
+    # wget -O /etc/systemd/system/ws.service "${REPO}websocket/ws.service" >/dev/null 2>&1
     wget -O /etc/systemd/system/ws.service "${REPO}websocket/socks.service" >/dev/null 2>&1
     chmod +x /etc/systemd/system/ws.service
 }
+
 
 function insXray() {
     msg "Core Xray 1.7.5 Version installed successfully"
@@ -535,7 +564,9 @@ LimitNOFILE=1000000
 WantedBy=multi-user.target
 
 EOF
+    
 }
+
 
 insUdp() {
     wget -O /usr/bin/udp "${REPO}utility/udp-custom-linux-amd64" >/dev/null 2>&1
@@ -580,6 +611,7 @@ EOF
     systemctl start udp
     systemctl restart udp
 }
+
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
@@ -657,20 +689,22 @@ function restart_system() {
     echo "    │   - Full Orders For Various Services                │"
     echo "    └─────────────────────────────────────────────────────┘"
     wget https://github.com/hq-mp/vps/raw/refs/heads/main/menu.zip
-    unzip menu.zip -d /tmp/menu_install
-    rm -f menu.zip
-    chmod +x /tmp/menu_install/*
-    mv /tmp/menu_install/* /usr/bin/
-    rm -rf /tmp/menu_install
+unzip menu.zip -d /tmp/menu_install
+rm -f menu.zip
+chmod +x /tmp/menu_install/*
+mv /tmp/menu_install/* /usr/bin/
+rm -rf /tmp/menu_install
     secs_to_human "$(($(date +%s) - ${start}))"
     read -e -p "         Please Reboot Your Vps [y/n] " -i "y" str
     if [ "$str" = "y" ]; then
+        
         reboot
+        
     fi
     menu
 }
+# Fungsi Install
 
-# Main Installation Function
 function install_sc() {
     insDepedency
     acme
@@ -683,9 +717,8 @@ function install_sc() {
     insXray
     insUdp
     restart_system
+    
 }
-
-# Execution
 logo
 make_folder_xray
 add_domain
