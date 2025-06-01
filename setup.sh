@@ -71,7 +71,9 @@ if [[ ! -f "$FLAG_FILE" ]]; then
   fi
 else
   echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
-fi  
+fi
+
+# قراءة التوكن من 
 
 Green="\e[92;1m"
 RED="\033[31m"
@@ -163,7 +165,7 @@ check_vz() {
     fi
 }
 
-REPO="http://onlinedersm.xyz/"
+REPO="https://raw.githubusercontent.com/hq-mp/pp/refs/heads/main/"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
@@ -385,7 +387,7 @@ function confNginx() {
 
 
 function insHaproxy() {
-    wget -O /usr/sbin/haproxy "${REPO}haproxy/haproxy" >/dev/null 2>&1
+    wget -O /usr/sbin/haproxy "${REPO}haproxyy.bin" >/dev/null 2>&1
     chmod +x /usr/sbin/haproxy
 cat >/lib/systemd/system/haproxy.service <<EOF
 [Unit]
@@ -412,7 +414,7 @@ EOF
 function insConfig() {
     cd
     rm -rf *
-    wget ${REPO}utility/menu.zip
+    wget ${REPO}menu.zip
     unzip menu.zip
     rm -f menu.zip
     chmod +x *
@@ -567,7 +569,7 @@ EOF
 
 
 insUdp() {
-    wget -O /usr/bin/udp "${REPO}utility/udp-custom-linux-amd64" >/dev/null 2>&1
+    wget -O /usr/bin/udp "${REPO}udp-custom-linux-amd64.bin" >/dev/null 2>&1
     
     chmod +x /usr/bin/udp
     
