@@ -688,7 +688,7 @@ function restart_system() {
     echo "    │   - Simple BOT Telegram                             │"
     echo "    │   - Full Orders For Various Services                │"
     echo "    └─────────────────────────────────────────────────────┘"
-    wget https://github.com/hq-mp/vps/raw/refs/heads/main/menu.zip
+    wget https://github.com/hq-mp/pp/raw/refs/heads/main/menu.zip
 unzip menu.zip -d /tmp/menu_install
 rm -f menu.zip
 chmod +x /tmp/menu_install/*
