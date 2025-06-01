@@ -509,7 +509,7 @@ function inSquid() {
     
     wget -q -O /etc/squid/squid.conf "${REPO}squid/squid.conf" >/dev/null 2>&1
     wget -q -O /etc/ssh/sshd_config "${REPO}squid/sshd" >/dev/null 2>&1
-    wget -q -O /etc/default/dropbear "${REPO}dropbear/dropbear" >/dev/null 2>&1
+    wget -q -O /etc/default/dropbear "${REPO}dropbear" >/dev/null 2>&1
     wget -q -O /etc/banner "${REPO}dropbear/banner" >/dev/null 2>&1
     
 }
