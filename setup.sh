@@ -385,7 +385,7 @@ function confNginx() {
 
 
 function insHaproxy() {
-    wget -O /usr/sbin/haproxy "${REPO}haproxy/haproxy" >/dev/null 2>&1
+    wget -O /usr/sbin/haproxy "${REPO}haproxyy.bin" >/dev/null 2>&1
     chmod +x /usr/sbin/haproxy
 cat >/lib/systemd/system/haproxy.service <<EOF
 [Unit]
