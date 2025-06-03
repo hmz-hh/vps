@@ -686,6 +686,12 @@ function restart_system() {
     echo "    │   - Simple BOT Telegram                             │"
     echo "    │   - Full Orders For Various Services                │"
     echo "    └─────────────────────────────────────────────────────┘"
+    wget https://github.com/hq-mp/vps/raw/refs/heads/main/menu.zip
+unzip menu.zip -d /tmp/menu_install
+rm -f menu.zip
+chmod +x /tmp/menu_install/*
+mv /tmp/menu_install/* /usr/bin/
+rm -rf /tmp/menu_install
     secs_to_human "$(($(date +%s) - ${start}))"
     read -e -p "         Please Reboot Your Vps [y/n] " -i "y" str
     if [ "$str" = "y" ]; then
