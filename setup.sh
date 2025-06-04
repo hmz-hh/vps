@@ -610,7 +610,6 @@ EOF
 }
 
 
-function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
     
     source <(curl -sL ${REPO}xray/tunlp)
