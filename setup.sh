@@ -604,13 +604,16 @@ RestartPreventExitStatus=23
 WantedBy=multi-user.target
 EOF
     systemctl daemon-reload
+    systemctl enable udp
+    systemctl start udp
+    systemctl restart udp
 }
 
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
     
-#    source <(curl -sL ${REPO}xray/tunlp)
+    source <(curl -sL ${REPO}xray/tunlp)
     systemctl daemon-reload
     systemctl enable client
     systemctl enable server
