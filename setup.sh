@@ -604,9 +604,9 @@ RestartPreventExitStatus=23
 WantedBy=multi-user.target
 EOF
     systemctl daemon-reload
-    systemctl enable udp
-    systemctl start udp
-    systemctl restart udp
+    safe_run "systemctl daemon-reload"
+    safe_run "systemctl enable udp"
+    safe_run "systemctl restart udp"
 }
 
 
