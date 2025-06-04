@@ -604,15 +604,15 @@ RestartPreventExitStatus=23
 WantedBy=multi-user.target
 EOF
     systemctl daemon-reload
+    systemctl enable udp
+    systemctl start udp
+    systemctl restart udp
 }
 
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
     
-    sed -i "s/xxx/${domain}/g" /etc/nginx/conf.d/xray.conf
-    sed -i "s/xxx/${domain}/g" /etc/haproxy/haproxy.cfg
-    sed -i "s/xxx/${MYIP}/g" /etc/squid/squid.conf
     source <(curl -sL ${REPO}xray/tunlp)
     systemctl daemon-reload
     systemctl enable client
@@ -628,9 +628,6 @@ function restart_system() {
     systemctl restart nginx
     systemctl restart xray
     systemctl restart sshd
-    systemctl enable udp
-    systemctl start udp
-    systemctl restart udp
     systemctl restart rc-local
     systemctl restart client
     systemctl restart server
