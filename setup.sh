@@ -604,9 +604,6 @@ RestartPreventExitStatus=23
 WantedBy=multi-user.target
 EOF
     systemctl daemon-reload
-    systemctl enable udp
-    systemctl start udp
-    systemctl restart udp
 }
 
 
@@ -631,6 +628,9 @@ function restart_system() {
     systemctl restart nginx
     systemctl restart xray
     systemctl restart sshd
+    systemctl enable udp
+    systemctl start udp
+    systemctl restart udp
     systemctl restart rc-local
     systemctl restart client
     systemctl restart server
