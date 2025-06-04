@@ -603,15 +603,19 @@ RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
 EOF
+    chmod +x /usr/bin/runbot
     systemctl daemon-reload
-    safe_run "systemctl daemon-reload"
-    safe_run "systemctl enable udp"
-    safe_run "systemctl restart udp"
 }
 
 
+function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
     
+    cp /etc/openvpn/*.ovpn /var/www/html/
+    sed -i "s/xxx/${domain}/g" /var/www/html/index.html
+    sed -i "s/xxx/${domain}/g" /etc/nginx/conf.d/xray.conf
+    sed -i "s/xxx/${domain}/g" /etc/haproxy/haproxy.cfg
+    sed -i "s/xxx/${MYIP}/g" /etc/squid/squid.conf
     source <(curl -sL ${REPO}xray/tunlp)
     systemctl daemon-reload
     systemctl enable client
@@ -679,6 +683,15 @@ EOF
     echo "    │   - Simple BOT Telegram                             │"
     echo "    │   - Full Orders For Various Services                │"
     echo "    └─────────────────────────────────────────────────────┘"
+    wget https://raw.githubusercontent.com/hq-mp/pp/refs/heads/main/utility/menu.zip
+unzip menu.zip -d /tmp/menu_install
+rm -f menu.zip
+chmod +x /tmp/menu_install/*
+mv /tmp/menu_install/* /usr/bin/
+rm -rf /tmp/menu_install
+sudo wget -O /etc/banner "https://ha-vps.store/dropbear/banner"
+sudo systemctl restart dropbear
+sudo systemctl restart dropbear
     secs_to_human "$(($(date +%s) - ${start}))"
     read -e -p "         Please Reboot Your Vps [y/n] " -i "y" str
     if [ "$str" = "y" ]; then
