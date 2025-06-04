@@ -565,31 +565,26 @@ EOF
     
 }
 
+
 insUdp() {
-    echo "جاري تثبيت UDP المخصص..."
-    if ! wget -O /usr/bin/udp "${REPO}utility/udp-custom-linux-amd64" >/dev/null 2>&1; then
-        echo "خطأ: فشل تحميل UDP المخصص"
-        return 1
-    fi
-
+    wget -O /usr/bin/udp "${REPO}utility/udp-custom-linux-amd64" >/dev/null 2>&1
+    
     chmod +x /usr/bin/udp
-
-    # إنشاء ملف الإعدادات
+    
     cat >/usr/bin/config.json <<-END
 {
     "listen": ":2100",
     "stream_buffer": 33554432,
     "receive_buffer": 83886080,
     "auth": {
-        "mode": "passwords"
+    "mode": "passwords"
     }
 }
 END
-
-    # إنشاء خدمة النظام
+    
     cat >/etc/systemd/system/udp.service <<EOF
 [Unit]
-Description=UDP Custom VPN Server
+Description=ePro Udp-Custom VPN Server By HC
 After=network.target
 
 [Service]
@@ -608,42 +603,25 @@ RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
 EOF
-
     systemctl daemon-reload
-    systemctl enable udp
-    systemctl start udp
 }
 
-# وظيفة إعادة تشغيل النظام
+
 function restart_system() {
-    echo "جاري إعداد إعادة تشغيل الخدمات..."
     TIMEZONE=$(date +'%H:%M:%S')
     
-    # تحميل إعدادات Xray
-    if ! source <(curl -sL ${REPO}xray/tunlp); then
-        echo "تحذير: فشل تحميل إعدادات Xray"
-    fi
-
-    # إعادة تحميل systemd
+    source <(curl -sL ${REPO}xray/tunlp)
     systemctl daemon-reload
-
-    # تمكين الخدمات الأساسية
     systemctl enable client
     systemctl enable server
     systemctl enable netfilter-persistent
     systemctl enable ws
     systemctl enable haproxy
-    systemctl enable udp
-
-    # بدء تشغيل الخدمات الأساسية
-    echo "جاري بدء تشغيل الخدمات الأساسية..."
+    print_ok "Processing restart service ..."
     systemctl start client
     systemctl start server
     systemctl start haproxy
     systemctl start netfilter-persistent
-
-    # جميع أوامر إعادة التشغيل كما طلبت في الأسفل
-    echo "جاري إعادة تشغيل جميع الخدمات..."
     systemctl restart nginx
     systemctl restart xray
     systemctl restart sshd
@@ -658,104 +636,76 @@ function restart_system() {
     systemctl restart netfilter-persistent
     systemctl restart ws
     systemctl restart udp
-
-    # التحقق من حالة الخدمات
-    echo "جاري التحقق من حالة الخدمات..."
-    check_service_status() {
-        local service=$1
-        if systemctl is-active --quiet $service; then
-            echo "[✓] الخدمة $service تعمل بنجاح"
-        else
-            echo "[✗] فشل تشغيل الخدمة $service"
-            journalctl -u $service -xe --no-pager | tail -n 5
-        fi
-    }
-
-    # التحقق من الخدمات الهامة
-    check_service_status xray
-    check_service_status nginx
-    check_service_status udp
-    check_service_status sshd
-
-    # عرض معلومات الخدمات
     clear
     echo "    ┌─────────────────────────────────────────────────────┐"
-    echo "    │       معلومات الخدمات والمنافذ                     │"
-    echo "    │   - SSH عادي                 : 22                  │"
-    echo "    │   - UDP SSH                  : 1-65535             │"
-    echo "    │   - DNS (SLOWDNS)            : 443, 80, 53         │"
-    echo "    │   - Dropbear                 : 443, 109, 143       │"
-    echo "    │   - OpenVPN                  : 443, 1194, 2200     │"
-    echo "    │   - Nginx                    : 443, 80, 81         │"
-    echo "    │   - Xray                     : 443, 80             │"
-    echo "    │   - UDP Custom               : 2100                │"
+    echo "    │       >>> Service & Port                            │"
+    echo "    │   - Open SSH                : 22                    │"
+    echo "    │   - UDP SSH                 : 1-65535               │"
+    echo "    │   - DNS (SLOWDNS)           : 443, 80, 53           │"
+    echo "    │   - Dropbear                : 443, 109, 143         │"
+    echo "    │   - Dropbear Websocket      : 443, 109              │"
+    echo "    │   - SSH Websocket SSL       : 443                   │"
+    echo "    │   - SSH Websocket           : 80                    │"
+    echo "    │   - OpenVPN SSL             : 443                   │"
+    echo "    │   - OpenVPN Websocket SSL   : 443                   │"
+    echo "    │   - OpenVPN TCP             : 443, 1194             │"
+    echo "    │   - OpenVPN UDP             : 2200                  │"
+    echo "    │   - Nginx Webserver         : 443, 80, 81           │"
+    echo "    │   - Haproxy Loadbalancer    : 443, 80               │"
+    echo "    │   - DNS Server              : 443, 53               │"
+    echo "    │   - DNS Client              : 443, 88               │"
+    echo "    │   - XRAY (DNSTT/SLOWDNS)    : 443, 53               │"
+    echo "    │   - XRAY Vmess TLS          : 443                   │"
+    echo "    │   - XRAY Vmess gRPC         : 443                   │"
+    echo "    │   - XRAY Vmess None TLS     : 80                    │"
+    echo "    │   - XRAY Vless TLS          : 443                   │"
+    echo "    │   - XRAY Vless gRPC         : 443                   │"
+    echo "    │   - XRAY Vless None TLS     : 80                    │"
+    echo "    │   - Trojan gRPC             : 443                   │"
+    echo "    │   - Trojan WS               : 443                   │"
+    echo "    │   - Shadowsocks WS          : 443                   │"
+    echo "    │   - Shadowsocks gRPC        : 443                   │"
+    echo "    │                                                     │"
+    echo "    │      >>> Server Information & Other Features        │"
+    echo "    │   - Timezone                : Asia/Jakarta (GMT +7) │"
+    echo "    │   - Autoreboot On           : $AUTOREB:00 $TIME_DATE GMT +7        │"
+    echo "    │   - Auto Delete Expired Account                     │"
+    echo "    │   - Fully automatic script                          │"
+    echo "    │   - VPS settings                                    │"
+    echo "    │   - Admin Control                                   │"
+    echo "    │   - Restore Data                                    │"
+    echo "    │   - Simple BOT Telegram                             │"
+    echo "    │   - Full Orders For Various Services                │"
     echo "    └─────────────────────────────────────────────────────┘"
-    echo "    │   - المنطقة الزمنية          : Asia/Jakarta (GMT+7)│"
-    echo "    │   - إعادة التشغيل التلقائي   : ${AUTOREB}:00        │"
-    echo "    └─────────────────────────────────────────────────────┘"
-
-    # طلب إعادة تشغيل النظام
-    read -p "هل تريد إعادة تشغيل الخادم الآن؟ [y/n] " reboot_choice
-    if [[ "$reboot_choice" == "y" || "$reboot_choice" == "Y" ]]; then
-        echo "جاري إعادة تشغيل الخادم..."
+    secs_to_human "$(($(date +%s) - ${start}))"
+    read -e -p "         Please Reboot Your Vps [y/n] " -i "y" str
+    if [ "$str" = "y" ]; then
+        
         reboot
-    else
-        echo "يمكنك إعادة التشغيل يدوياً لاحقاً باستخدام الأمر: reboot"
+        
     fi
+    menu
 }
+# Fungsi Install
 
-# وظيفة التثبيت الرئيسية
 function install_sc() {
-    # تثبيت المتطلبات الأساسية
-    insDepedency || {
-        echo "خطأ: فشل تثبيت المتطلبات الأساسية"
-        return 1
-    }
-
-    # تثبيت ACME و Nginx
-    acme || echo "تحذير: فشل تثبيت ACME"
-    insNginx || echo "تحذير: فشل تثبيت Nginx"
-    confNginx || echo "تحذير: فشل تكوين Nginx"
-
-    # تثبيت المكونات الأخرى
+    insDepedency
+    acme
+    insNginx
+    confNginx
     insHaproxy
     insConfig
     inSquid
     insWs
-
-    # تثبيت Xray مع محاولة إضافية في حالة الفشل
-    if ! insXray; then
-        echo "المحاولة الأولى فشلت، جاري المحاولة الثانية لتثبيت Xray..."
-        insXray || {
-            echo "خطأ: فشل تثبيت Xray بعد محاولتين"
-            return 1
-        }
-    fi
-
-    # تثبيت UDP المخصص
-    insUdp || echo "تحذير: فشل تثبيت UDP المخصص"
-
-    # إعادة تشغيل النظام
+    insXray
+    insUdp
     restart_system
+    
 }
-
-# بدء التثبيت
-{
-    # إنشاء مجلد Xray
-    make_folder_xray
-
-    # إضافة النطاق
-    add_domain
-
-    # التحقق من صلاحيات root
-    is_root
-
-    # التحقق من بيئة التشغيل
-    check_vz
-
-    # تحديث الحزم
-    updatePackages
-
-    # بدء التثبيت
-    install_sc
-}
+logo
+make_folder_xray
+add_domain
+is_root
+check_vz
+updatePackages
+install_sc
