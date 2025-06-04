@@ -603,12 +603,16 @@ RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
 EOF
-    systemctl daemon-reload
-    systemctl enable udp
-    systemctl start udp
-    systemctl restart udp
-}
 
+    systemctl daemon-reload
+
+    if [ -f /usr/bin/udp ]; then
+        chmod +x /usr/bin/udp
+        systemctl enable udp
+        systemctl start udp
+        systemctl restart udp
+    fi
+}
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
