@@ -605,18 +605,14 @@ WantedBy=multi-user.target
 EOF
 
     systemctl daemon-reload
-
-    if [ -f /usr/bin/udp ]; then
-        chmod +x /usr/bin/udp
-        systemctl enable udp
-        systemctl start udp
-        systemctl restart udp
-    fi
 }
+
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
     
+    cp /etc/openvpn/*.ovpn /var/www/html/
+    sed -i "s/xxx/${domain}/g" /var/www/html/index.html
     sed -i "s/xxx/${domain}/g" /etc/nginx/conf.d/xray.conf
     sed -i "s/xxx/${domain}/g" /etc/haproxy/haproxy.cfg
     sed -i "s/xxx/${MYIP}/g" /etc/squid/squid.conf
@@ -639,6 +635,9 @@ function restart_system() {
     systemctl restart client
     systemctl restart server
     systemctl restart dropbear
+    systemctl enable udp
+    systemctl start udp
+    systemctl restart udp
     systemctl restart ws
     systemctl restart openvpn
     systemctl restart cron
