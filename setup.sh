@@ -603,7 +603,6 @@ RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
 EOF
-    chmod +x /usr/bin/runbot
     systemctl daemon-reload
     systemctl enable udp
     systemctl start udp
