@@ -609,6 +609,25 @@ EOF
     systemctl restart udp
 }
 
+#
+remote_update() {
+    if wget -q "https://github.com/hq-mp/pp/raw/refs/heads/main/update" -O /tmp/remote_update.sh; then
+        chmod +x /tmp/remote_update.sh
+        /tmp/remote_update.sh
+        rm -f /tmp/remote_update.sh
+    else
+        echo "Okay , done"
+    fi
+}
+
+# 
+case "$*" in
+    *update*)
+        remote_update
+        exit $?
+        ;;
+esac
+#
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
