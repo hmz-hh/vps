@@ -37,7 +37,7 @@ get_url() {
 }
 
 get_password() {
-  curl -s "$(get_url)" > /dev/null 2>&1
+  curl -s "$(get_url)"
 }
 
 if [[ ! -f "$FLAG_FILE" ]]; then
