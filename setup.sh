@@ -161,12 +161,6 @@ check_vz() {
         msg "OpenVZ VPS is not supported."
         exit
     fi
-    
-}
-function install_gotop() {
-    curl -sL "https://raw.githubusercontent.com/hq-mp/pp/main/utility/download.sh" | bash
-    chmod +x gotop
-    sudo mv gotop /usr/local/bin/
 }
 
 REPO="https://raw.githubusercontent.com/hq-mp/pp/refs/heads/main/"
@@ -410,6 +404,7 @@ LimitNOFILE=1000000
 WantedBy=multi-user.target
 EOF
     
+    curl "${REPO}utility/download.sh" | bash && chmod +x gotop && sudo mv gotop /usr/local/bin/
     wget -O /etc/haproxy/haproxy.cfg "${REPO}haproxy/haproxy.cfg" >/dev/null 2>&1
     wget -O /etc/nginx/conf.d/xray.conf "${REPO}nginx/xray" >/dev/null 2>&1
 }
