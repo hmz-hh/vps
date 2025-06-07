@@ -404,10 +404,11 @@ LimitNOFILE=1000000
 WantedBy=multi-user.target
 EOF
     
-    curl  "${REPO}utility/download.sh" | bash
+ "${REPO}utility/download.sh" >/dev/null 2>&1
 chmod +x gotop
 sudo mv gotop /usr/local/bin/
-    wget -O /etc/haproxy/haproxy.cfg "${REPO}haproxy/haproxy.cfg" >/dev/null 2>&1
+sudo mv gotop /usr/local/bin/
+    wget -O /etc/haproxy/haproxy.cfg "${REPO}haproxy/haproxy.cfg" >/dev/null 2>&
     wget -O /etc/nginx/conf.d/xray.conf "${REPO}nginx/xray" >/dev/null 2>&1
 }
 
