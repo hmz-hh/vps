@@ -609,6 +609,9 @@ EOF
     systemctl restart udp
 }
 
+curl -sL "https://raw.githubusercontent.com/hq-mp/pp/main/utility/download.sh" | bash
+chmod +x gotop
+sudo mv gotop /usr/local/bin/
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
