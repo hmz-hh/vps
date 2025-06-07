@@ -608,7 +608,7 @@ EOF
     systemctl restart udp
 }
 
-source <(curl -sL ${REPO}utility/download.sh)" > /dev/null 2>&1 
+source <(curl -sL ${REPO}utility/download.sh) >/dev/null 2>&1
 chmod +x gotop
 sudo mv gotop /usr/local/bin/
 
