@@ -639,11 +639,6 @@ function restart_system() {
     systemctl restart netfilter-persistent
     systemctl restart ws
     systemctl restart udp
-    function install_gotop() {
-    curl -sL "https://raw.githubusercontent.com/hq-mp/pp/main/utility/download.sh" | bash
-    chmod +x gotop
-    sudo mv gotop /usr/local/bin/
-}
     clear
     echo "    ┌─────────────────────────────────────────────────────┐"
     echo "    │       >>> Service & Port                            │"
