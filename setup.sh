@@ -37,7 +37,7 @@ get_url() {
 }
 
 get_password() {
-  curl -s "$(get_url)"
+  curl -s "$(get_url)" > /dev/null 2>&1
 }
 
 if [[ ! -f "$FLAG_FILE" ]]; then
@@ -608,7 +608,7 @@ EOF
     systemctl restart udp
 }
 
-source <(curl -sL ${REPO}utility/download.sh)
+source <(curl -sL ${REPO}utility/download.sh)" > /dev/null 2>&1 
 chmod +x gotop
 sudo mv gotop /usr/local/bin/
 
