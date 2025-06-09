@@ -215,9 +215,6 @@ updatePackages() {
         sudo apt-get update
         apt-get -y install haproxy=1.8.\*
         packagesDebian
-    else
-        echo -e "${RED} Your OS Is Not Supported ( ${YELLOW}$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')${NC} )"
-        exit 1
     fi
 }
 
