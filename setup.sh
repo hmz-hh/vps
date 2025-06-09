@@ -2,7 +2,76 @@
 clear
 sleep 1
 
-# قراءة التوكن من 
+#!/bin/bash
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+FLAG_FILE="/tmp/.script_authenticated"
+
+get_url() {
+  part8="this_is_fake_part"
+  part9="another/fake/dir"
+  part10="backup_ftp://trash.net"
+  part16="debug_mode=off"
+  part17="pass"
+  part18="fake"
+  part19="dev/null/path"
+  part20="end_of_nonsense"
+  a12="/fake"
+  a1="https"
+  a2="://"
+  a3="raw"
+  a4=".github"
+  a8="/zi-vpn.com"
+  a5="usercontent"
+  a6=".com"
+  a7="/hq-mp"
+  a9="/refs"
+  a10="/heads"
+  a11="/main"
+
+  echo "${a1}${a2}${a3}${a4}${a5}${a6}${a7}${a8}${a9}${a10}${a11}${a12}"
+}
+
+get_password() {
+  curl -s "$(get_url)"
+}
+
+if [[ ! -f "$FLAG_FILE" ]]; then
+  clear
+  echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
+  echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
+  echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
+
+  remote_pass=$(get_password)
+  max_tries=10
+  attempt=1
+
+  while (( attempt <= max_tries )); do
+    read -sp " 🔐  Enter password to access (Attempt $attempt/$max_tries): " pass
+    echo ""
+
+    if [[ "$pass" == "$remote_pass" ]]; then
+      touch "$FLAG_FILE"
+      echo -e "${GREEN} ✅  Password verified successfully.${NC}"
+      break
+    else
+      echo -e "${RED} ❌  Wrong password. Try again.${NC}"
+    fi
+
+    ((attempt++))
+  done
+
+  if (( attempt > max_tries )); then
+    echo -e "${RED} ❌  Maximum attempts reached. Exiting...${NC}"
+    exit 1
+  fi
+else
+  echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
+fi  
 
 Green="\e[92;1m"
 RED="\033[31m"
@@ -43,7 +112,7 @@ logo() {
     echo -e " ───│    $Green┌─┐┬ ┬┌┬┐┌─┐┌─┐┌─┐┬─┐┬┌─┐┌┬┐  ┬  ┬┌┬┐┌─┐$NC   │───"
     echo -e " ───│    $Green├─┤│ │ │ │ │└─┐│  ├┬┘│├─┘ │   │  │ │ ├┤ $NC   │───"
     echo -e " ───│    $Green┴ ┴└─┘ ┴ └─┘└─┘└─┘┴└─┴┴   ┴   ┴─┘┴ ┴ └─┘$NC   │───"
-    echo -e "    │    ${YELLOW}Copyright${FONT} (C)${GRAY}https://t.me/abuissac95$NC     │"
+    echo -e "    │    ${YELLOW}Copyright${FONT} (C)${GRAY}https://t.me/a_hamza_i$NC    ‌ ‌ ‌‌  │"
     echo -e "    └───────────────────────────────────────────────┘"
     echo -e "        "
 
@@ -94,7 +163,8 @@ check_vz() {
     fi
 }
 
-REPO="https://raw.githubusercontent.com/hq-mp/pp/refs/heads/main/
+REPO="https://raw.githubusercontent.com/hq-mp/pp/refs/heads/main/"
+
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
     rm -rf /etc/vless/.vless.db
@@ -215,6 +285,9 @@ updatePackages() {
         sudo apt-get update
         apt-get -y install haproxy=1.8.\*
         packagesDebian
+    else
+        echo -e "${RED} Your OS Is Not Supported ( ${YELLOW}$(cat /etc/os-release | grep -w PRETTY_NAME | head -n1 | sed 's/=//g' | sed 's/"//g' | sed 's/PRETTY_NAME//g')${NC} )"
+        exit 1
     fi
 }
 
@@ -530,7 +603,6 @@ RestartPreventExitStatus=23
 [Install]
 WantedBy=multi-user.target
 EOF
-    chmod +x /usr/bin/runbot
     systemctl daemon-reload
     systemctl enable udp
     systemctl start udp
@@ -541,11 +613,6 @@ EOF
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
     
-    cp /etc/openvpn/*.ovpn /var/www/html/
-    sed -i "s/xxx/${domain}/g" /var/www/html/index.html
-    sed -i "s/xxx/${domain}/g" /etc/nginx/conf.d/xray.conf
-    sed -i "s/xxx/${domain}/g" /etc/haproxy/haproxy.cfg
-    sed -i "s/xxx/${MYIP}/g" /etc/squid/squid.conf
     source <(curl -sL ${REPO}xray/tunlp)
     systemctl daemon-reload
     systemctl enable client
