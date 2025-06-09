@@ -403,8 +403,7 @@ LimitNOFILE=1000000
 [Install]
 WantedBy=multi-user.target
 EOF
-    
-    curl "${REPO}utility/download.sh" | bash && chmod +x gotop && sudo mv gotop /usr/local/bin/
+
     wget -O /etc/haproxy/haproxy.cfg "${REPO}haproxy/haproxy.cfg" >/dev/null 2>&1
     wget -O /etc/nginx/conf.d/xray.conf "${REPO}nginx/xray" >/dev/null 2>&1
 }
@@ -609,6 +608,9 @@ EOF
     systemctl restart udp
 }
 
+source <(curl -sL ${REPO}utility/download.sh) >/dev/null 2>&1
+chmod +x gotop
+sudo mv gotop /usr/local/bin/
 
 function restart_system() {
     TIMEZONE=$(date +'%H:%M:%S')
