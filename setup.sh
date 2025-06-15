@@ -1,8 +1,6 @@
 #!/bin/bash
 clear
-sleep 1
-
-#!/bin/bash
+sleep 3
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
