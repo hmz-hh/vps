@@ -161,7 +161,7 @@ check_vz() {
     fi
 }
 
-REPO="https://raw.githubusercontent.com/hq-mp/pp/refs/heads/main/"
+REPO="https://raw.githubusercontent.com/hmz-hh/pp/refs/heads/main/"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
