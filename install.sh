@@ -56,7 +56,7 @@ while (( attempt <= MAX_ATTEMPTS )); do
     echo -e "${YELLOW} Secure Access Panel${NC}"
     echo -e "${YELLOW} Script is protected by password${NC}"
     echo -e "${YELLOW} To get the password, contact here @a_hamza_i ${NC}"
-    echo -n -e "  Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
+    echo -n -e " Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
     read -rs PASSWORD
     echo
     if 7z t -p"$PASSWORD" "$ARCHIVE_FILE" &>/dev/null; then
