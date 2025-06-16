@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euo pipefail
+#test 
+set -uo pipefail  # بدون -e باش مانخرجش على أول خطأ
 
 ARCHIVE_URL="https://github.com/hmz-hh/vps/raw/refs/heads/main/install.7z"
 ARCHIVE_FILE="install.7z"
@@ -60,12 +61,14 @@ if ! $success; then
     block_ip "$MY_IP"
     echo "[-] Your IP has been permanently blocked. Contact admin to unblock."
 
-    # حلقة تمنع أي استخدام آخر حتى بعد الخطأ
     while :; do
         echo "[-] Access denied. VPS is blocked."
         sleep 60
     done
 fi
+
+# نرجع التحقق الصارم من الأخطاء من بعد فك الضغط
+set -e
 
 echo "[+] Extracting $EXTRACTED_FILE..."
 7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE"
