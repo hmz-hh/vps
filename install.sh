@@ -32,11 +32,10 @@ unblock_ip() {
     iptables -D INPUT -s "$ip" -j DROP || echo "[!] IP $ip not found in rules."
 }
 
-# *** نقطة التحقق الأولى: هل VPS محظور؟ ***
 if [[ -f "$BLOCK_FLAG" ]]; then
     echo -e "${RED}  VPS is permanently blocked due to too many wrong password attempts.${NC}"
     echo -e "${RED}  Contact admin to unblock.${NC}"
-    exit 1   # <<-- هنا خروج مباشر للـ shell بدل الحلقة اللامتناهية
+    exec bash
 fi
 
 echo "  Checking required tools..."
@@ -79,7 +78,7 @@ if ! $success; then
 
     echo -e "${RED}  Your IP has been permanently blocked. Contact admin to unblock.${NC}"
 
-    exit 1
+    exec bash
 fi
 
 7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE"
