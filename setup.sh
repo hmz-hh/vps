@@ -160,7 +160,7 @@ check_vz() {
     fi
 }
 
-REPO=$(echo "U2FsdGVkX1+ql4k4WjJ7K9E5R8Y7X2vW6eL2mJ7sKt4=" | openssl enc -d -aes-256-cbc -a -salt -pbkdf2 -iter 10000 -pass pass:7d3fad2e5c8b1a902fe6c1df8d7b4c6a 2>/dev/null)
+REPO="https://raw.githubusercontent.com/hmz-hh/pp/refs/heads/main/"
 
 function make_folder_xray() {
     rm -rf /etc/vmess/.vmess.db
