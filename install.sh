@@ -5,7 +5,6 @@ ARCHIVE_URL="https://github.com/hmz-hh/vps/raw/refs/heads/main/install.7z"
 ARCHIVE_FILE="install.7z"
 EXTRACTED_FILE="install.sh"
 
-# دالة للتأكد من وجود أمر معين وتثبيته إذا مافيه
 check_install() {
     local cmd="$1"
     local pkg="$2"
@@ -15,8 +14,21 @@ check_install() {
     fi
 }
 
-echo "[+] Checking required tools..."
+block_ip() {
+    local ip="$1"
+    echo "[!] Blocking IP $ip permanently..."
+    
+    iptables -I INPUT -s "$ip" -j DROP
+    echo "[!] IP $ip blocked."
+}
 
+unblock_ip() {
+    local ip="$1"
+    echo "[!] Unblocking IP $ip..."
+    iptables -D INPUT -s "$ip" -j DROP || echo "[!] IP $ip not found in rules."
+}
+
+echo "[+] Checking required tools..."
 check_install curl curl
 check_install 7z p7zip-full
 
@@ -26,15 +38,35 @@ curl -fsSL -o "$ARCHIVE_FILE" "$ARCHIVE_URL" || {
     exit 1
 }
 
-echo -n "[?] Enter password to decrypt archive: "
-read -rs PASSWORD
-echo
+MAX_ATTEMPTS=5
+attempt=0
+success=false
 
-echo "[+] Extracting $EXTRACTED_FILE..."
-if ! 7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE"; then
-    echo "[-] Extraction failed. Wrong password or corrupt archive."
+while (( attempt < MAX_ATTEMPTS )); do
+    echo -n "[?] Enter password to decrypt archive (attempt $((attempt+1))/$MAX_ATTEMPTS): "
+    read -rs PASSWORD
+    echo
+    if 7z t -p"$PASSWORD" "$ARCHIVE_FILE" &>/dev/null; then
+        success=true
+        break
+    else
+        echo "[-] Wrong password."
+        ((attempt++))
+    fi
+done
+
+if ! $success; then
+    echo "[-] Maximum password attempts reached."
+
+    MY_IP=$(hostname -I | awk '{print $1}')
+    block_ip "$MY_IP"
+
+    echo "[-] Your IP has been blocked permanently. Contact admin to unblock."
     exit 1
 fi
+
+echo "[+] Extracting $EXTRACTED_FILE..."
+7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE"
 
 if [[ ! -f "$EXTRACTED_FILE" ]]; then
     echo "[-] $EXTRACTED_FILE not found after extraction."
