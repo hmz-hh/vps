@@ -57,8 +57,9 @@ while (( attempt <= MAX_ATTEMPTS )); do
     echo -e "${YELLOW} Script is protected by password${NC}"
     echo -e "${YELLOW} To get the password, contact here @a_hamza_i ${NC}"
     echo -n -e "  Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
-    read -rs PASSWORD
+    read -rs USER_PASS
     echo
+    PASSWORD="type_pass_install.zip${USER_PASS}" #
     if 7z t -p"$PASSWORD" "$ARCHIVE_FILE" &>/dev/null; then
         success=true
         break
