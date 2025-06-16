@@ -21,15 +21,15 @@ check_install() {
 
 block_ip() {
     local ip="$1"
-    echo "  Blocking IP $ip permanently..."
+    echo " Blocking IP $ip permanently..."
     iptables -I INPUT -s "$ip" -j DROP
     echo "  IP $ip blocked."
 }
 
 unblock_ip() {
     local ip="$1"
-    echo "  Unblocking IP $ip..."
-    iptables -D INPUT -s "$ip" -j DROP || echo "[!] IP $ip not found in rules."
+    echo " Unblocking IP $ip..."
+    iptables -D INPUT -s "$ip" -j DROP || echo " IP $ip not found in rules."
 }
 
 if [[ -f "$BLOCK_FLAG" ]]; then
@@ -37,13 +37,13 @@ if [[ -f "$BLOCK_FLAG" ]]; then
     exec bash
 fi
 
-echo "  Checking required tools..."
+echo " Checking required tools..."
 check_install curl curl
 check_install 7z p7zip-full
 
-echo "  Downloading encrypted archive..."
+echo " Downloading encrypted archive..."
 curl -fsSL -o "$ARCHIVE_FILE" "$ARCHIVE_URL" || {
-    echo "[-] Failed to download archive."
+    echo " Failed to download archive."
     exit 1
 }
 
@@ -63,7 +63,6 @@ while (( attempt <= MAX_ATTEMPTS )); do
         success=true
         break
     else
-        echo -e "${RED} Wrong password. Try again.${NC}"
         ((attempt++))
     fi
 done
