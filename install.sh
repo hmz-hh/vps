@@ -5,7 +5,7 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 set -euo pipefail
 
-ARCHIVE_URL="https://github.com/hmz-hh/vps/raw/refs/heads/main/install.7z"
+ARCHIVE_URL="script.ha-vps.store/install.7z"
 ARCHIVE_FILE="install.7z"
 EXTRACTED_FILE="install.sh"
 BLOCK_FLAG=".blocked"
