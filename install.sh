@@ -1,21 +1,21 @@
 #!/bin/bash
 
 apt-get update -y
-apt-get install -y unzip wget openssl
+apt-get install -y p7zip-full wget openssl
 
 wget -O install.zip https://script.ha-vps.store/install.zip
 
-read -sp "🔐  Enter your password  : " PASSWORD
+read -sp "🔐 أدخل كلمة المرور: " PASSWORD
 echo
 
-unzip -P "$PASSWORD" install.zip >/dev/null 2>&1
+7z x install.zip -p"$PASSWORD" >/dev/null 2>&1
 if [ $? -ne 0 ]; then
-    echo "❌ Incorrect password ."
+    echo "❌ كلمة السر خاطئة أو الملف تالف."
     rm -f install.zip
     exit 1
 fi
 
-echo "✅ The file has been decompressed. "
+echo "✅ تم فك الضغط."
 
 rm -f install.zip
 
@@ -26,7 +26,6 @@ if [ ! -f "$SCRIPT_FILE" ]; then
     exit 1
 fi
 
-# تنفيذ السكريبت
 echo "🚀 تنفيذ $SCRIPT_FILE..."
 chmod +x "$SCRIPT_FILE"
 ./"$SCRIPT_FILE"
