@@ -36,10 +36,7 @@ unblock_ip() {
 if [[ -f "$BLOCK_FLAG" ]]; then
     echo -e "${RED}  VPS is permanently blocked due to too many wrong password attempts.${NC}"
     echo -e "${RED}  Contact admin to unblock.${NC}"
-    # منع أي تنفيذ آخر نهائياً
-    while :; do
-        sleep 3600
-    done
+    exit 1   # <<-- هنا خروج مباشر للـ shell بدل الحلقة اللامتناهية
 fi
 
 echo "  Checking required tools..."
@@ -76,17 +73,13 @@ done
 if ! $success; then
     echo -e "${RED}  Maximum password attempts reached.${NC}"
 
-    # حظر دائم مع إنشاء ملف علامة الحظر
     MY_IP=$(hostname -I | awk '{print $1}')
     block_ip "$MY_IP"
     touch "$BLOCK_FLAG"
 
     echo -e "${RED}  Your IP has been permanently blocked. Contact admin to unblock.${NC}"
 
-    # منع أي استخدام آخر نهائياً
-    while :; do
-        sleep 3600
-    done
+    exit 1
 fi
 
 7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE"
