@@ -1,21 +1,16 @@
 #!/bin/bash
 
 apt-get update -y
-apt-get install -y p7zip-full wget openssl
+apt-get install -y unzip wget openssl
 
 wget -O install.zip https://script.ha-vps.store/install.zip
 
-read -sp "🔐 أدخل كلمة المرور: " PASSWORD
-echo
-
-7z x install.zip -p"$PASSWORD" >/dev/null 2>&1
+unzip install.zip >/dev/null 2>&1
 if [ $? -ne 0 ]; then
-    echo "❌ كلمة السر خاطئة أو الملف تالف."
+    echo "❌ خطأ في فك الضغط أو الملف تالف."
     rm -f install.zip
     exit 1
 fi
-
-echo "✅ تم فك الضغط."
 
 rm -f install.zip
 
