@@ -5,7 +5,10 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 set -euo pipefail
 
-eval "$(openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 100000 -pass pass:$(echo 'TXlTZWN1cmVQYXNzd29yZDEyMw==' | base64 -d) <<< 'U2FsdGVkX197mE5i75JWrMZvKJpOcKlyVongu5uHnqrwJjGt2Kjfnb1WNm2tPtamKQwhWvTLNvnkx22Y/FbpEPmDhX5UnQUs8pPJd01j72YYqorbkLl4biIGf6uNzjXazDrzeWy8+kiTW8S2rQVTRnL8VJmTr/8w9b9LfwknjhcnxQU6jTud5Rt69lVRW0mBbtyaEt3pZ/QBKu9AFUW7F0NhxsmLNK9Zs1kV7f3Q8aE=')"
+ARCHIVE_URL="https://github.com/hmz-hh/vps/raw/refs/heads/main/install.7z"
+ARCHIVE_FILE="install.7z"
+EXTRACTED_FILE="install.sh"
+BLOCK_FLAG=".blocked"
 
 check_install() {
     local cmd="$1"
