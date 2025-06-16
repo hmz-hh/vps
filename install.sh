@@ -81,3 +81,4 @@ fi
 chmod +x "$EXTRACTED_FILE"
 echo "Running $EXTRACTED_FILE..."
 bash "$EXTRACTED_FILE"
+#ok
