@@ -42,35 +42,36 @@ curl -fsSL -o "$ARCHIVE_FILE" "$ARCHIVE_URL" || {
 }
 
 MAX_ATTEMPTS=5
-attempt=0
+attempt=1
 success=false
 
-while (( attempt < MAX_ATTEMPTS )); do
-clear
-  echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
-  echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
-  echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
-  echo -n "[?] Enter password to decrypt archive (attempt $((attempt+1))/$MAX_ATTEMPTS): "
+while (( attempt <= MAX_ATTEMPTS )); do
+    clear
+    echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
+    echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
+    echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
+    echo -n "[?] Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): "
     read -rs PASSWORD
     echo
     if 7z t -p"$PASSWORD" "$ARCHIVE_FILE" &>/dev/null; then
         success=true
         break
     else
-        echo "[-] Wrong password. Try again."
+        echo -e "${RED}[-] Wrong password. Try again.${NC}"
         ((attempt++))
+        sleep 2
     fi
 done
 
 if ! $success; then
-    echo "[-] Maximum password attempts reached."
+    echo -e "${RED}[-] Maximum password attempts reached.${NC}"
     MY_IP=$(hostname -I | awk '{print $1}')
     block_ip "$MY_IP"
-    echo "[-] Your IP has been permanently blocked. Contact admin to unblock."
+    echo -e "${RED}[-] Your IP has been permanently blocked. Contact admin to unblock.${NC}"
 
-    # حلقة تمنع أي استخدام آخر حتى بعد الخطأ
+    # منع أي استخدام آخر حتى بعد الخطأ
     while :; do
-        echo "[-] Access denied. VPS is blocked."
+        echo -e "${RED}[-] Access denied. VPS is blocked.${NC}"
         sleep 60
     done
 fi
