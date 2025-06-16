@@ -11,8 +11,7 @@ EXTRACTED_FILE="install.sh"
 BLOCK_FLAG=".blocked"
 
 check_install() {
-    local cmd="$1"
-    local pkg="$2"
+    local cmd="$1"; local pkg="$2"
     if ! command -v "$cmd" &>/dev/null; then
         echo "  '$cmd' not found. Installing..."
         apt update && apt install -y "$pkg"
@@ -26,16 +25,12 @@ block_ip() {
     echo "  IP $ip blocked."
 }
 
-unblock_ip() {
-    local ip="$1"
-    echo " Unblocking IP $ip..."
-    iptables -D INPUT -s "$ip" -j DROP || echo " IP $ip not found in rules."
-}
-
-# دالة لعكس النص
 reverse_string() {
     echo "$1" | rev
 }
+
+# هنا نخزن فقط الكلمة المقلوبة (مثال: إذا الكلمة الأصلية 1234، نخزن 4321)
+CORRECT_REVERSED_PASSWORD="4321"
 
 if [[ -f "$BLOCK_FLAG" ]]; then
     echo -e "${RED} VPS is permanently blocked due to too many wrong password attempts.${NC}"
@@ -61,39 +56,38 @@ while (( attempt <= MAX_ATTEMPTS )); do
     echo -e "${YELLOW} Secure Access Panel${NC}"
     echo -e "${YELLOW} Script is protected by password${NC}"
     echo -e "${YELLOW} To get the password, contact here @a_hamza_i ${NC}"
-    echo -n -e " Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
-    read -rs INPUT_PASSWORD
-    echo
+    echo -n -e " Enter password (original or reversed) (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
+    read -rs INPUT; echo
 
-    # نعكس الكلمة اللي دخلها المستخدم
-    PASSWORD=$(reverse_string "$INPUT_PASSWORD")
+    if [[ "$INPUT" == "$CORRECT_REVERSED_PASSWORD" ]]; then
+        # المستخدم دخل المعكوس → نرجّعها للأصل
+        PASSWORD=$(reverse_string "$INPUT")
+    elif [[ "$(reverse_string "$INPUT")" == "$CORRECT_REVERSED_PASSWORD" ]]; then
+        # المستخدم دخل الأصل → نستخدمه مباشرة
+        PASSWORD="$INPUT"
+    else
+        ((attempt++))
+        continue
+    fi
 
     if 7z t -p"$PASSWORD" "$ARCHIVE_FILE" &>/dev/null; then
         success=true
         break
+    else
+        ((attempt++))
     fi
-
-    ((attempt++))
 done
 
 if ! $success; then
     echo -e "${RED} Maximum password attempts reached.${NC}"
-
     MY_IP=$(hostname -I | awk '{print $1}')
     block_ip "$MY_IP"
     touch "$BLOCK_FLAG"
-
     echo -e "${RED} Your IP has been permanently blocked${NC}"
-
     exec bash
 fi
 
 7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE"
-
-if [[ ! -f "$EXTRACTED_FILE" ]]; then
-    exit 1
-fi
-
 chmod +x "$EXTRACTED_FILE"
 echo "Running $EXTRACTED_FILE..."
 bash "$EXTRACTED_FILE"
