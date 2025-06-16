@@ -32,6 +32,11 @@ unblock_ip() {
     iptables -D INPUT -s "$ip" -j DROP || echo " IP $ip not found in rules."
 }
 
+# دالة لعكس النص
+reverse_string() {
+    echo "$1" | rev
+}
+
 if [[ -f "$BLOCK_FLAG" ]]; then
     echo -e "${RED} VPS is permanently blocked due to too many wrong password attempts.${NC}"
     exec bash
@@ -57,14 +62,18 @@ while (( attempt <= MAX_ATTEMPTS )); do
     echo -e "${YELLOW} Script is protected by password${NC}"
     echo -e "${YELLOW} To get the password, contact here @a_hamza_i ${NC}"
     echo -n -e " Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
-    read -rs PASSWORD
+    read -rs INPUT_PASSWORD
     echo
+
+    # نعكس الكلمة اللي دخلها المستخدم
+    PASSWORD=$(reverse_string "$INPUT_PASSWORD")
+
     if 7z t -p"$PASSWORD" "$ARCHIVE_FILE" &>/dev/null; then
         success=true
         break
-    else
-        ((attempt++))
     fi
+
+    ((attempt++))
 done
 
 if ! $success; then
