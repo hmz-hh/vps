@@ -17,7 +17,6 @@ check_install() {
 block_ip() {
     local ip="$1"
     echo "[!] Blocking IP $ip permanently..."
-    
     iptables -I INPUT -s "$ip" -j DROP
     echo "[!] IP $ip blocked."
 }
@@ -50,19 +49,22 @@ while (( attempt < MAX_ATTEMPTS )); do
         success=true
         break
     else
-        echo "[-] Wrong password."
+        echo "[-] Wrong password. Try again."
         ((attempt++))
     fi
 done
 
 if ! $success; then
     echo "[-] Maximum password attempts reached."
-
     MY_IP=$(hostname -I | awk '{print $1}')
     block_ip "$MY_IP"
+    echo "[-] Your IP has been permanently blocked. Contact admin to unblock."
 
-    echo "[-] Your IP has been blocked permanently. Contact admin to unblock."
-    exit 1
+    # حلقة تمنع أي استخدام آخر حتى بعد الخطأ
+    while :; do
+        echo "[-] Access denied. VPS is blocked."
+        sleep 60
+    done
 fi
 
 echo "[+] Extracting $EXTRACTED_FILE..."
