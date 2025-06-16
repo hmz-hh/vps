@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#mr
 set -uo pipefail  # ماشي set -e باش ميخرجش من المحاولة الأولى
 
 ARCHIVE_URL="https://github.com/hmz-hh/vps/raw/refs/heads/main/install.7z"
