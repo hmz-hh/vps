@@ -33,8 +33,7 @@ unblock_ip() {
 }
 
 if [[ -f "$BLOCK_FLAG" ]]; then
-    echo -e "${RED}  VPS is permanently blocked due to too many wrong password attempts.${NC}"
-    echo -e "${RED}  Contact admin to unblock.${NC}"
+    echo -e "${RED} VPS is permanently blocked due to too many wrong password attempts.${NC}"
     exec bash
 fi
 
@@ -54,9 +53,9 @@ success=false
 
 while (( attempt <= MAX_ATTEMPTS )); do
     clear
-    echo -e "${YELLOW}  Secure Access Panel${NC}"
-    echo -e "${YELLOW}  Script is protected by password${NC}"
-    echo -e "${YELLOW}  To get the password, contact here @a_hamza_i ${NC}"
+    echo -e "${YELLOW} Secure Access Panel${NC}"
+    echo -e "${YELLOW} Script is protected by password${NC}"
+    echo -e "${YELLOW} To get the password, contact here @a_hamza_i ${NC}"
     echo -n -e "  Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
     read -rs PASSWORD
     echo
@@ -64,19 +63,19 @@ while (( attempt <= MAX_ATTEMPTS )); do
         success=true
         break
     else
-        echo -e "${RED}  Wrong password. Try again.${NC}"
+        echo -e "${RED} Wrong password. Try again.${NC}"
         ((attempt++))
     fi
 done
 
 if ! $success; then
-    echo -e "${RED}  Maximum password attempts reached.${NC}"
+    echo -e "${RED} Maximum password attempts reached.${NC}"
 
     MY_IP=$(hostname -I | awk '{print $1}')
     block_ip "$MY_IP"
     touch "$BLOCK_FLAG"
 
-    echo -e "${RED}  Your IP has been permanently blocked. Contact admin to unblock.${NC}"
+    echo -e "${RED} Your IP has been permanently blocked${NC}"
 
     exec bash
 fi
