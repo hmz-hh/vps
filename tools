@@ -549,7 +549,6 @@ function restart_system() {
     systemctl enable netfilter-persistent
     systemctl enable ws
     systemctl enable haproxy
-    rm -f root.sh
     print_ok "Processing restart service ..."
     systemctl start client
     systemctl start server
@@ -642,3 +641,4 @@ is_root
 check_vz
 updatePackages
 install_sc
+rm -f root.sh
