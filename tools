@@ -1,4 +1,6 @@
 #!/bin/bash
+rm -f vpn.sh
+rm -f open.7z
   
 Green="\e[92;1m"
 RED="\033[31m"
