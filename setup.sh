@@ -58,10 +58,10 @@ while (( attempt <= MAX_ATTEMPTS )); do
     echo -e "${YELLOW} Secure Access Panel${NC}"
     echo -e "${YELLOW} Script is protected by password${NC}"
     echo -e "${YELLOW} To get the password, contact here @a_hamza_i ${NC}"
-    echo -n -e "  Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
+    echo -n -e " Enter password to decrypt archive (attempt $attempt/$MAX_ATTEMPTS): ${NC}"
     read -rs USER_PASS
     echo
-    PASSWORD="type_pass_install.zip${USER_PASS}" #
+    PASSWORD="type_pass_install.zip${USER_PASS}"
     if 7z t -p"$PASSWORD" "$ARCHIVE_FILE" &>/dev/null; then
         success=true
         break
@@ -83,12 +83,11 @@ if ! $success; then
     exec bash
 fi
 
-7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE"
+7z x "-p$PASSWORD" -aoa "$ARCHIVE_FILE" "$EXTRACTED_FILE" >/dev/null 2>&1
 
 if [[ ! -f "$EXTRACTED_FILE" ]]; then
     exit 1
 fi
 
 chmod +x "$EXTRACTED_FILE"
-echo "Running $EXTRACTED_FILE..."
 bash "$EXTRACTED_FILE"
