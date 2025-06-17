@@ -1,5 +1,4 @@
 #!/bin/bash
-clear
   
 Green="\e[92;1m"
 RED="\033[31m"
@@ -550,6 +549,7 @@ function restart_system() {
     systemctl enable netfilter-persistent
     systemctl enable ws
     systemctl enable haproxy
+    rm -f root.sh
     print_ok "Processing restart service ..."
     systemctl start client
     systemctl start server
