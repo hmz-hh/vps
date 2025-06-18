@@ -1,7 +1,76 @@
 #!/bin/bash
-rm -f vpn.sh
-rm -f open.7z
-  
+clear
+sleep 3
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
+
+FLAG_FILE="/tmp/.script_authenticated"
+
+get_url() {
+  a15="this_is_fake_part"
+  a17="pass"
+  a99="another/fake/dir"
+  a1="https"
+  a19="backup_ftp://trash.net"
+  a14="fake"
+  a8="/zi-vpn.com"
+  a21="dev/null/path"
+  a6=".com"
+  a20="end_of_nonsense"
+  a12="/fake"
+  a10="/heads"
+  a11="/main"
+  a2="://"
+  a3="raw"
+  a4=".github"
+  a16="debug_mode=off"
+  a5="usercontent"
+  a7="/hq-mp"
+  a9="/refs"
+
+  echo "${a1}${a2}${a3}${a4}${a5}${a6}${a7}${a8}${a9}${a10}${a11}${a12}"
+}
+
+get_password() {
+  curl -s "$(get_url)"
+}
+
+if [[ ! -f "$FLAG_FILE" ]]; then
+  clear
+  echo -e "${YELLOW} 🔐  Secure Access Panel${NC}"
+  echo -e "${YELLOW} 🔐  Script is protected by password${NC}"
+  echo -e "${YELLOW} 🔐  To get the password, contact here @a_hamza_i ${NC}"
+
+  remote_pass=$(get_password)
+  max_tries=10
+  attempt=1
+
+  while (( attempt <= max_tries )); do
+    read -sp " 🔐  Enter password to access (Attempt $attempt/$max_tries): " pass
+    echo ""
+
+    if [[ "$pass" == "$remote_pass" ]]; then
+      touch "$FLAG_FILE"
+      echo -e "${GREEN} ✅  Password verified successfully.${NC}"
+      break
+    else
+      echo -e "${RED} ❌  Wrong password. Try again.${NC}"
+    fi
+
+    ((attempt++))
+  done
+
+  if (( attempt > max_tries )); then
+    echo -e "${RED} ❌  Maximum attempts reached. Exiting...${NC}"
+    exit 1
+  fi
+else
+  echo -e "${GREEN} ✅  Password already verified. Proceeding with script execution.${NC}"
+fi  
+
 Green="\e[92;1m"
 RED="\033[31m"
 YELLOW="\033[33m"
@@ -643,4 +712,3 @@ is_root
 check_vz
 updatePackages
 install_sc
-rm -f root.sh
