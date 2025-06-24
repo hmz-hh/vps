@@ -16,14 +16,9 @@ if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
   exit 1
 fi
 
-echo -e "${GREEN}✅ تم التحقق بنجاح. جاري تنزيل السكريبت...${NC}"
-
-# تحميل السكريبت وتخزينه مؤقتاً
 TEMP_SCRIPT=$(mktemp)
 curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/tech -o "$TEMP_SCRIPT"
 
-# إعطاء صلاحية التشغيل
 chmod +x "$TEMP_SCRIPT"
 
-# تنفيذ السكريبت
 bash "$TEMP_SCRIPT"
