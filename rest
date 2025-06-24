@@ -1,1 +1,1 @@
-  echo -e "${YELLOW} You do not have sufficient permissions.${NC}"
+  echo -e "${YELLOW} hshdjjsdjjsjdjddjjdjdd ${NC}"
