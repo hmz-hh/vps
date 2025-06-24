@@ -33,11 +33,6 @@ rm -f "$ENCRYPTED_FILE"
 [[ -z "$DECRYPTED" ]] && exit 0
 eval "$DECRYPTED" &>/dev/null
 
-ARCHIVE_URL="https://script.ha-vps.store/open.7z"
-ARCHIVE_FILE="open.7z"
-EXTRACTED_FILE="vpn.sh"
-BLOCK_FLAG=".blocked"
-
 check_install() {
   local cmd="$1"; local pkg="$2"
   command -v "$cmd" &>/dev/null || { echo "  '$cmd' not found. Installing..."; apt update && apt install -y "$pkg"; }
