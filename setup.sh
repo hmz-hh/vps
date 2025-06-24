@@ -9,7 +9,7 @@ MY_IP=$(curl -s -4 ifconfig.me)
 # التحقق فـ كل ثانية بصمت
 while true; do
   # تحميل اللائحة
-  DATA=$(curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/int 2>/dev/null | tr -d '\r' | sed '/^\s*$/d')
+  DATA=$(curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/intt 2>/dev/null | tr -d '\r' | sed '/^\s*$/d')
 
   # سطر IP ديالنا
   LINE=$(echo "$DATA" | grep "^$MY_IP@" 2>/dev/null)
