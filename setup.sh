@@ -1,38 +1,24 @@
 #!/bin/bash
 
-# مسار ملف menu اللي بغيت تحذفو
-TARGET_FILE="/usr/bin/menu"
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m'
 
-# الحصول على IP الحالي
 MY_IP=$(curl -s -4 ifconfig.me)
 
-# التحقق فـ كل ثانية بصمت
-while true; do
-  # تحميل اللائحة
-  DATA=$(curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/intt 2>/dev/null | tr -d '\r' | sed '/^\s*$/d')
+ALLOWED_IPS=$(curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/int | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 
-  # سطر IP ديالنا
-  LINE=$(echo "$DATA" | grep "^$MY_IP@" 2>/dev/null)
+if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
+  echo -e "${YELLOW} You do not have sufficient permissions.${NC}"
+  echo -e "${YELLOW} The administrator did not approve the request to use the script.${NC}"
+  echo -e "${YELLOW} To obtain the authority to execute the script, contact here @a_hamza_i ${NC}"
+  exit 1
+fi
 
-  if [[ -n "$LINE" ]]; then
-    # استخراج تاريخ الصلاحية
-    EXP_PART=$(echo "$LINE" | cut -d'@' -f2)
-    EXP_HOUR=$(echo "$EXP_PART" | cut -d'/' -f1 | cut -d':' -f1)
-    EXP_MIN=$(echo "$EXP_PART" | cut -d'/' -f1 | cut -d':' -f2)
-    EXP_DAY=$(echo "$EXP_PART" | cut -d'/' -f2)
-    EXP_MONTH=$(echo "$EXP_PART" | cut -d'/' -f3)
-    EXP_YEAR=$(echo "$EXP_PART" | cut -d'/' -f4)
+TEMP_SCRIPT=$(mktemp)
+curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/tech -o "$TEMP_SCRIPT"
 
-    # توقيت الصلاحية و التوقيت الحالي
-    EXP_DATE=$(date -d "$EXP_YEAR-$EXP_MONTH-$EXP_DAY $EXP_HOUR:$EXP_MIN" +%s 2>/dev/null)
-    NOW_DATE=$(date +%s)
+chmod +x "$TEMP_SCRIPT"
 
-    # المقارنة
-    if [[ $NOW_DATE -ge $EXP_DATE ]]; then
-      rm -f "$TARGET_FILE"
-      exit 0
-    fi
-  fi
-
-  sleep 1
-done
+bash "$TEMP_SCRIPT"
