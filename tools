@@ -1,7 +1,7 @@
 #!/bin/bash
 rm -f vpn.sh
 rm -f open.7z
-  
+
 Green="\e[92;1m"
 RED="\033[31m"
 YELLOW="\033[33m"
@@ -19,6 +19,7 @@ green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 stty erase ^?
+
 MY_IP=$(curl -s -4 ifconfig.me)
 ALLOWED_IPS=$(curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/ip | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
