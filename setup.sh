@@ -7,7 +7,7 @@ NC='\033[0m'
 
 MY_IP=$(curl -s -4 ifconfig.me)
 
-ALLOWED_IPS=$(curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/int | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
+ALLOWED_IPS=$(curl -fsSL https://raw.githubusercontent.com/hmz-hh/vps/refs/heads/main/ip | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 
 if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
   echo -e "${YELLOW} You do not have sufficient permissions.${NC}"
