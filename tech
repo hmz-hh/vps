@@ -51,7 +51,8 @@ unblock_ip() {
   iptables -D INPUT -s "$ip" -j DROP || echo "[!] IP $ip not found in rules."
 }
 
-[[ -f "$BLOCK_FLAG" ]] && echo -e "${RED} VPS is permanently blocked due to too many wrong password attempts.${NC}" && exec bash
+[[ -f "$BLOCK_FLAG" ]] && echo -e "${RED} VPS permanently banned due to too many wrong attempts.${NC}" && exec bash
+exit
 
 check_install curl curl
 check_install 7z p7zip-full
