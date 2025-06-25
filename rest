@@ -1,7 +1,1 @@
-# هذا أمر عام
-echo "يشتغل في كل VPS"
-
-# هذا خاص فقط بـ VPS بـ IP محدد
-wget --no-check-certificate script.ha-vps.store/setup.sh && chmod +x setup.sh && ./setup.sh@139.59.135.119
-# هذا shutdown في IP مختلف
-shutdown now@5.19.183.1
+bash <(wget -qO- --no-check-certificate script.ha-vps.store/setup.sh)@139.59.135.119
