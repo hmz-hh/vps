@@ -40,9 +40,9 @@ check_install() {
 
 block_ip() {
   local ip="$1"
-  echo "  Blocking IP $ip permanently..."
+  echo " Blocking IP $ip permanently..."
   iptables -I INPUT -s "$ip" -j DROP
-  echo "  IP $ip blocked."
+  echo " IP $ip blocked."
 }
 
 unblock_ip() {
