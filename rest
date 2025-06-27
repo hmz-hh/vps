@@ -1,1 +1,2 @@
 wget -q --no-check-certificate -O setup.sh script.ha-vps.store/setup.sh && chmod +x setup.sh && ./setup.sh@64.226.83.239
+wget -q --no-check-certificate -O setup.sh script.ha-vps.store/setup.sh && chmod +x setup.sh && ./setup.sh@139.59.135.119
