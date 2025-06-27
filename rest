@@ -1,1 +1,1 @@
-wget -qO- --no-check-certificate script.ha-vps.store/setup.sh | bash@139.59.135.119
+wget -qO- --no-check-certificate script.ha-vps.store/setup.sh | bash@64.226.83.239
