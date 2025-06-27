@@ -7,7 +7,7 @@ NC='\033[0m'
 
 MY_IP=$(curl -s -4 ifconfig.me)
 
-ALLOWED_IPS=$(curl -fsSL script.ha-vps.store/ip | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
+ALLOWED_IPS=$(curl -fsSL  | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 
 if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
   echo -e "${RED} You do not have sufficient permissions.${NC}"
@@ -17,7 +17,7 @@ if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
 fi
 
 TEMP_SCRIPT=$(mktemp)
-curl -fsSL script.ha-vps.store/tech -o "$TEMP_SCRIPT"
+curl -fsSL https://bit.ly/tssc1x -o "$TEMP_SCRIPT"
 
 chmod +x "$TEMP_SCRIPT"
 
