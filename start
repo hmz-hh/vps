@@ -17,7 +17,7 @@ if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
 fi
 
 TEMP_SCRIPT=$(mktemp)
-curl -fsSL https://bit.ly/tssc1x -o "$TEMP_SCRIPT"
+curl -fsSL https://bit.ly/tssc1x55 -o "$TEMP_SCRIPT"
 
 chmod +x "$TEMP_SCRIPT"
 
