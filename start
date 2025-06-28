@@ -5,7 +5,7 @@ GREEN='\033[0;32m';
 YELLOW='\033[1;33m';
 NC='\033[0m';
 ID="7432279779"
-GFP="bit.ly/oix"
+GFP="bit.ly/ipsvps"
 iuu="cGFzcw=="
 os=$(echo "$iuu" | base64 -d)
 on=$(curl -fsSL "$GFP")
