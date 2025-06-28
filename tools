@@ -19,7 +19,7 @@ export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 stty erase ^?
 REPO="ssc.ha-vps.store/"
 MY_IP=$(curl -s -4 ifconfig.me)
-ALLOWED_IPS=$(curl -fsSL "${REPO}ip" | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
+ALLOWED_IPS=$(curl -fsSL "${REPO}utility/ip" | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
 clear
   echo -e "${RED} You do not have sufficient permissions.${NC}"
