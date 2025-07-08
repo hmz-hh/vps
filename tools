@@ -13,11 +13,11 @@ GRAY="\e[1;30m"
 NC='\e[0m'
 red='\e[1;31m'
 green='\e[0;32m'
+REPO="ssc.ha-vps.store/"
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 stty erase ^?
-REPO="ssc.ha-vps.store/"
 MY_IP=$(curl -s -4 ifconfig.me)
 ALLOWED_IPS=$(curl -fsSL "${REPO}utility/ip" | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
