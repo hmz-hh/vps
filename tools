@@ -589,6 +589,7 @@ function restart_system() {
     systemctl restart netfilter-persistent
     systemctl restart ws
     systemctl restart udp
+    chmod +x /etc/days
     clear
     echo "    ┌─────────────────────────────────────────────────────┐"
     echo "    │       >>> Service & Port                            │"
