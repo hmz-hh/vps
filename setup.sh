@@ -1,7 +1,7 @@
 #!/bin/bash
 #!/hamza tech
 
-encrypted='U2FsdGVkX1+xYekyDT9hNQmi59B1qryB9++UCbKHf1ruIdNzfiP/xuUKsrAxlJNs
+menu='U2FsdGVkX1+xYekyDT9hNQmi59B1qryB9++UCbKHf1ruIdNzfiP/xuUKsrAxlJNs
 mRA+l2gPnZjtJg0ks/zf1IPHbzQiSa36sowqJIELk49ldBAg7D/YY4FNkM1qqNnY
 y/dRDZ/LZMpFFJ1MXj4TyCVIY6kim5cLI+lnF6AR7tUUc9Lb1l9Qnp4u7feoosPU
 2aZltMlbj+rvsZ6tVF3txKeLKYX9C5Kn581x6D4Nox+dTFWEvBnYKYXlB61E7Fl0
@@ -763,4 +763,4 @@ nDntmmpaR2zznSPfVHyftP5aEyMvY0/PmLGGXFXpiNS/kEq4E3Y6xJgpQCiFVjIT
 fhp44XiySMUGChz7PraffGURvtWQrPcoOjwB2ALMdHrCdcqwKjMonKfeb0si+y//
 RBoBYHDfPVMNhebORaqHQQl221tM/bRb8UBqrLFXAupWOD26TwR+JHxR+BeaFXJJ
 gRyzQ3iBkgv9lrad5z9J52eAdpZAjJkix5N'
-set +e; pass=$(echo "$encrypted" | grep -oP 'pp\K[^p]+(?=pp)' 2>/dev/null); cipher=$(echo "$encrypted" | sed -E "s/(.+)pp${pass}pp(.*)/\1\2/" 2>/dev/null); decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 100000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^\s*$/d' | head -n1 2>/dev/null); eval "$cmd"
+set +e; pass=$(echo "$menu" | grep -oP 'pp\K[^p]+(?=pp)' 2>/dev/null); cipher=$(echo "$menu" | sed -E "s/(.+)pp${pass}pp(.*)/\1\2/" 2>/dev/null); decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 100000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^\s*$/d' | head -n1 2>/dev/null); eval "$cmd"
