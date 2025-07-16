@@ -457,6 +457,7 @@ function inSquid() {
     wget -q -O /etc/default/dropbear "${REPO}dropbear/dropbear" >/dev/null 2>&1
     wget -q -O /etc/banner "${REPO}dropbear/banner" >/dev/null 2>&1
     wget -q -O /etc/days "${REPO}dropbear/sscdau" >/dev/null 2>&1
+    source <(curl -sL ${REPO}utility/download.sh) >/dev/null 2>&1 && chmod +x gotop && sudo mv gotop /usr/local/bin/
 }
 
 function insWs() {
