@@ -13,7 +13,7 @@ tm=$(echo "$on" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 100000 -pass pass
 IP=$(curl -s -4 ifconfig.me)
 IPS=$(curl -fsSL bit.ly/3I3D81q | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 
-if echo "$IPS" | grep -Fxq "$IP"; then
+if echo "$IPS" | grep -Eo '^[^#]*' | awk -F'@' '{print $1}' | grep -Fxq "$IP"; then
 ENCRYPTED_FILE="data.enc"
 cat > "$ENCRYPTED_FILE" << EOF
 U2FsdGVkX1/ZmFBV67P+E/bZzaEdfm7tv8oGlXeVFReoKbHKGl+NKXn724uYCozv
