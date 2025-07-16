@@ -13,7 +13,7 @@ GRAY="\e[1;30m"
 NC='\e[0m'
 red='\e[1;31m'
 green='\e[0;32m'
-REPO="https://github.com/hmz-hh/pp/raw/refs/heads/main/"
+REPO="ssc.ha-vps.store/"
 green() { echo -e "\\033[32;1m${*}\\033[0m"; }
 red() { echo -e "\\033[31;1m${*}\\033[0m"; }
 export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
@@ -25,7 +25,6 @@ clear
 echo -e "  \033[1;93m  ┌────────────────────────────────────────────┐\033[0m"
 echo -e "  \033[1;93m  │\033[1;92m      .::. \033[0m\033[1;77mYou do not have access \033[1;92m.::.\033[0m"
 echo -e "  \033[1;93m  └────────────────────────────────────────────┘\033[0m"
-echo ""
 echo -e "      \033[1;93m┌────────────────────────────────────────┐\033[0m"
 echo -e "   \033[1;93m\033[0m\033[1;31m    You do not have sufficient permissions ! \033[0m"
 echo -e "   \033[1;93m\033[0m\033[1;31m   Administrator has not approved your access ! \033[0m"
