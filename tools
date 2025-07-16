@@ -1,7 +1,5 @@
 #!/bin/bash
 
-OR='\033[1;93m'
-co="\e[1;4;31m"
 Green="\e[92;1m"
 RED="\033[31m"
 YELLOW="\033[33m"
@@ -23,18 +21,6 @@ stty erase ^?
 MY_IP=$(curl -s -4 ifconfig.me)
 ALLOWED_IPS=$(curl -fsSL "${REPO}utility/ip" | tr -d '\r' | sed '/^\s*$/d' | awk '{$1=$1};1')
 if ! echo "$ALLOWED_IPS" | grep -Fxq "$MY_IP"; then
-clear
-  echo -e "  \033[1;93m  ┌────────────────────────────────────────────┐\033[0m"
-  echo -e "  \033[1;93m  │\033[1;92m      .::. \033[0m\033[1;77mYou do not have access \033[1;92m.::.\033[0m"
-  echo -e "  \033[1;93m  └────────────────────────────────────────────┘\033[0m"
-  echo ""
-  echo -e "      ${OR}┌────────────────────────────────────────┐${NC}"
-  echo -e "   ${OR}${NC}${RED}    You do not have sufficient permissions ! ${NC}"
-  echo -e "   ${OR}${NC}${RED}   Administrator has not approved your access ! ${NC}"
-  echo -e "   ${OR}${NC}${RED}        To get permission, contact here : ${NC}"
-  echo -e "             ${OR}${NC}${co} Telegram : ${NC} t.me/serviice_c_vip "
-  echo -e "             ${OR}${NC}${co} WhatsApp : ${NC} wa.me/212690068362"
-  echo -e "      ${OR}└─────────────────────────────────────────┘${NC}"
   rm -f setup.sh
   rm -f root.sh
   rm -f vpn.sh
